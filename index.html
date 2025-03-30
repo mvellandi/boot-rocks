@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>boot.rocks - Your Adventure in Programming</title>
+    <meta
+      name="description"
+      content="Discover why boot.rocks is the best choice for your programming education. Learn about our complete trade school approach, great teachers, and supportive community."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              body: ["Nunito Sans", "sans-serif"],
+              display: ["BP", "sans-serif"],
+            },
+            colors: {
+              landscape: "#2E7D32",
+              earth: "#8B4513",
+              sand: "#DEB887",
+              beige: "#F5F5DC",
+              charcoal: "#36454F",
+              magic: "#9C27B0",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @font-face {
+        font-family: "BP";
+        src: url("assets/fonts/bp-medium.woff2") format("woff2");
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "BP";
+        src: url("assets/fonts/bp-bold.woff2") format("woff2");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
+  </head>
+  <body class="bg-beige text-charcoal font-body">
+    <div
+      class="container mx-auto px-4 lg:px-6 w-full lg:grid lg:grid-cols-[1fr_27%] lg:gap-8 max-w-[1280px]"
+    >
+      <!-- Main Content Column -->
+      <div class="w-full">
+        <!-- Video Player Section -->
+        <section class="mb-8">
+          <div
+            id="vimeo-player"
+            class="relative w-full pt-[56.25%] overflow-hidden rounded-lg shadow-md"
+          >
+            <iframe class="absolute inset-0 w-full h-full"></iframe>
+          </div>
+        </section>
+
+        <!-- Content Carousel -->
+        <section
+          class="content-section opacity-0 transition-opacity duration-300 mb-16"
+        >
+          <div class="content-carousel relative min-h-[200px]">
+            <section
+              id="intro"
+              data-start="0"
+              data-end="35.5"
+              class="absolute inset-0 w-full opacity-0 transition-opacity duration-500"
+            >
+              <header class="mb-4">
+                <h2
+                  class="font-display font-bold text-3xl text-earth leading-tight"
+                >
+                  Introduction
+                </h2>
+              </header>
+              <article class="text-lg">
+                <p>Welcome to boot.rocks</p>
+              </article>
+            </section>
+
+            <section
+              id="reason1"
+              data-start="35.5"
+              data-end="70"
+              class="absolute inset-0 w-full opacity-0 transition-opacity duration-500"
+            >
+              <header class="mb-4">
+                <h2
+                  class="font-display font-bold text-3xl text-earth leading-tight"
+                >
+                  Complete Trade School
+                </h2>
+              </header>
+              <article class="text-lg">
+                <p>
+                  Experience a comprehensive programming education designed like
+                  a trade school, focusing on practical skills and real-world
+                  applications.
+                </p>
+              </article>
+            </section>
+
+            <section
+              id="reason2"
+              data-start="70"
+              data-end="97"
+              class="absolute inset-0 w-full opacity-0 transition-opacity duration-500"
+            >
+              <header class="mb-4">
+                <h2
+                  class="font-display font-bold text-3xl text-earth leading-tight"
+                >
+                  Great Deal
+                </h2>
+              </header>
+              <article class="text-lg">
+                <p>
+                  Get exceptional value for your investment with our
+                  comprehensive programming education program.
+                </p>
+              </article>
+            </section>
+
+            <section
+              id="reason3"
+              data-start="97"
+              data-end="147"
+              class="absolute inset-0 w-full opacity-0 transition-opacity duration-500"
+            >
+              <header class="mb-4">
+                <h2
+                  class="font-display font-bold text-3xl text-earth leading-tight"
+                >
+                  Fun
+                </h2>
+              </header>
+              <article class="text-lg">
+                <p>
+                  Learn programming in an engaging and enjoyable environment
+                  that makes the learning process exciting.
+                </p>
+              </article>
+            </section>
+
+            <section
+              id="reason4"
+              data-start="147"
+              data-end="187"
+              class="absolute inset-0 w-full opacity-0 transition-opacity duration-500"
+            >
+              <header class="mb-4">
+                <h2
+                  class="font-display font-bold text-3xl text-earth leading-tight"
+                >
+                  Great Teachers
+                </h2>
+              </header>
+              <article class="text-lg">
+                <p>
+                  Learn from experienced instructors who are passionate about
+                  teaching and dedicated to your success.
+                </p>
+              </article>
+            </section>
+
+            <section
+              id="reason5"
+              data-start="187"
+              data-end="221"
+              class="absolute inset-0 w-full opacity-0 transition-opacity duration-500"
+            >
+              <header class="mb-4">
+                <h2
+                  class="font-display font-bold text-3xl text-earth leading-tight"
+                >
+                  Rich Media
+                </h2>
+              </header>
+              <article class="text-lg">
+                <p>
+                  Access high-quality educational content through various media
+                  formats to enhance your learning experience.
+                </p>
+              </article>
+            </section>
+
+            <section
+              id="reason6"
+              data-start="221"
+              data-end="302"
+              class="absolute inset-0 w-full opacity-0 transition-opacity duration-500"
+            >
+              <header class="mb-4">
+                <h2
+                  class="font-display font-bold text-3xl text-earth leading-tight"
+                >
+                  Educational Engineering
+                </h2>
+              </header>
+              <article class="text-lg">
+                <p>
+                  Benefit from our carefully engineered curriculum designed to
+                  optimize your learning journey.
+                </p>
+              </article>
+            </section>
+
+            <section
+              id="reason7"
+              data-start="302"
+              data-end="341"
+              class="absolute inset-0 w-full opacity-0 transition-opacity duration-500"
+            >
+              <header class="mb-4">
+                <h2
+                  class="font-display font-bold text-3xl text-earth leading-tight"
+                >
+                  Community
+                </h2>
+              </header>
+              <article class="text-lg">
+                <p>
+                  Join a supportive community of learners and educators who are
+                  committed to helping you succeed.
+                </p>
+              </article>
+            </section>
+
+            <section
+              id="reason8"
+              data-start="341"
+              data-end="378"
+              class="absolute inset-0 w-full opacity-0 transition-opacity duration-500"
+            >
+              <header class="mb-4">
+                <h2
+                  class="font-display font-bold text-3xl text-earth leading-tight"
+                >
+                  Customer Focus
+                </h2>
+              </header>
+              <article class="text-lg">
+                <p>
+                  Experience education that puts your needs first with our
+                  student-centered approach.
+                </p>
+              </article>
+            </section>
+
+            <section
+              id="summary"
+              data-start="378"
+              data-end="443"
+              class="absolute inset-0 w-full opacity-0 transition-opacity duration-500"
+            >
+              <header class="mb-4">
+                <h2
+                  class="font-display font-bold text-3xl text-earth leading-tight"
+                >
+                  Summary
+                </h2>
+              </header>
+              <article class="text-lg">
+                <p>
+                  Discover why boot.rocks is the perfect choice for your
+                  programming education journey.
+                </p>
+              </article>
+            </section>
+          </div>
+        </section>
+      </div>
+
+      <!-- Navigation Column -->
+      <nav
+        class="navigation lg:static lg:transform-none fixed right-4 top-1/2 -translate-y-1/2 z-50"
+        aria-label="Video chapters"
+      >
+        <button
+          class="nav-toggle lg:hidden p-2 bg-none border-none cursor-pointer"
+          aria-label="Toggle navigation"
+        >
+          <span class="hamburger"></span>
+        </button>
+        <div
+          class="nav-content hidden lg:flex lg:flex-col lg:gap-1 bg-white/95 lg:bg-transparent p-4 rounded-lg shadow-md lg:shadow-none"
+        >
+          <button
+            class="nav-item w-full px-4 py-2 text-left bg-transparent border-none rounded font-display font-medium text-base text-charcoal cursor-pointer transition-all duration-200 opacity-80 hover:bg-sand hover:opacity-100 data-[active=true]:bg-sand data-[active=true]:border-2 data-[active=true]:border-earth data-[active=true]:opacity-100"
+            data-segment="0"
+          >
+            Introduction
+          </button>
+          <button
+            class="nav-item w-full px-4 py-2 text-left bg-transparent border-none rounded font-display font-medium text-base text-charcoal cursor-pointer transition-all duration-200 opacity-80 hover:bg-sand hover:opacity-100 data-[active=true]:bg-sand data-[active=true]:border-2 data-[active=true]:border-earth data-[active=true]:opacity-100"
+            data-segment="1"
+          >
+            Complete Trade School
+          </button>
+          <button
+            class="nav-item w-full px-4 py-2 text-left bg-transparent border-none rounded font-display font-medium text-base text-charcoal cursor-pointer transition-all duration-200 opacity-80 hover:bg-sand hover:opacity-100 data-[active=true]:bg-sand data-[active=true]:border-2 data-[active=true]:border-earth data-[active=true]:opacity-100"
+            data-segment="2"
+          >
+            Great Deal
+          </button>
+          <button
+            class="nav-item w-full px-4 py-2 text-left bg-transparent border-none rounded font-display font-medium text-base text-charcoal cursor-pointer transition-all duration-200 opacity-80 hover:bg-sand hover:opacity-100 data-[active=true]:bg-sand data-[active=true]:border-2 data-[active=true]:border-earth data-[active=true]:opacity-100"
+            data-segment="3"
+          >
+            Fun
+          </button>
+          <button
+            class="nav-item w-full px-4 py-2 text-left bg-transparent border-none rounded font-display font-medium text-base text-charcoal cursor-pointer transition-all duration-200 opacity-80 hover:bg-sand hover:opacity-100 data-[active=true]:bg-sand data-[active=true]:border-2 data-[active=true]:border-earth data-[active=true]:opacity-100"
+            data-segment="4"
+          >
+            Great Teachers
+          </button>
+          <button
+            class="nav-item w-full px-4 py-2 text-left bg-transparent border-none rounded font-display font-medium text-base text-charcoal cursor-pointer transition-all duration-200 opacity-80 hover:bg-sand hover:opacity-100 data-[active=true]:bg-sand data-[active=true]:border-2 data-[active=true]:border-earth data-[active=true]:opacity-100"
+            data-segment="5"
+          >
+            Rich Media
+          </button>
+          <button
+            class="nav-item w-full px-4 py-2 text-left bg-transparent border-none rounded font-display font-medium text-base text-charcoal cursor-pointer transition-all duration-200 opacity-80 hover:bg-sand hover:opacity-100 data-[active=true]:bg-sand data-[active=true]:border-2 data-[active=true]:border-earth data-[active=true]:opacity-100"
+            data-segment="6"
+          >
+            Educational Engineering
+          </button>
+          <button
+            class="nav-item w-full px-4 py-2 text-left bg-transparent border-none rounded font-display font-medium text-base text-charcoal cursor-pointer transition-all duration-200 opacity-80 hover:bg-sand hover:opacity-100 data-[active=true]:bg-sand data-[active=true]:border-2 data-[active=true]:border-earth data-[active=true]:opacity-100"
+            data-segment="7"
+          >
+            Community
+          </button>
+          <button
+            class="nav-item w-full px-4 py-2 text-left bg-transparent border-none rounded font-display font-medium text-base text-charcoal cursor-pointer transition-all duration-200 opacity-80 hover:bg-sand hover:opacity-100 data-[active=true]:bg-sand data-[active=true]:border-2 data-[active=true]:border-earth data-[active=true]:opacity-100"
+            data-segment="8"
+          >
+            Customer Focus
+          </button>
+          <button
+            class="nav-item w-full px-4 py-2 text-left bg-transparent border-none rounded font-display font-medium text-base text-charcoal cursor-pointer transition-all duration-200 opacity-80 hover:bg-sand hover:opacity-100 data-[active=true]:bg-sand data-[active=true]:border-2 data-[active=true]:border-earth data-[active=true]:opacity-100"
+            data-segment="9"
+          >
+            Summary
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Vimeo Player SDK -->
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
