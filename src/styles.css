@@ -2,8 +2,8 @@
 @import "./colors.css";
 
 :root {
-  --font-body: "Nunito Sans", sans-serif;
-  --font-display: "Nunito Sans", sans-serif;
+  --font-body: "Fredoka", sans-serif;
+  --font-display: "Fredoka", sans-serif;
   --font-headline: "BP", sans-serif;
 }
 
@@ -24,8 +24,80 @@
   font-display: swap;
 }
 
+/* Base Styles */
+body {
+  background-color: var(--color-brown-980);
+  color: var(--color-charcoal);
+  font-family: var(--font-body);
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Site Header */
+.site-header {
+  background: var(--color-brown-800);
+  border-bottom: 8px solid var(--color-brown-900);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 1rem 0;
+
+  & .header-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 28%;
+    gap: 12px;
+    align-items: flex-end;
+  }
+
+  & h1 {
+    font-size: 3rem;
+    font-weight: 450;
+    color: var(--color-yellow-500);
+    line-height: 1;
+    margin: 0;
+    text-shadow: 3px 3px var(--color-brown-990);
+  }
+
+  & nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding-bottom: 0.3rem;
+
+    & a {
+      font-size: 1.125rem;
+      color: var(--color-offwhite);
+      transition: color 200ms ease;
+      line-height: 1;
+
+      &:hover {
+        color: var(--color-earth);
+      }
+    }
+  }
+}
+
+/* Main Content */
+.main-content {
+  margin-top: 5rem; /* Add space for fixed header */
+  width: calc(72% - 2rem); /* 100% - navigation width - gap */
+}
+
+.video-container {
+  width: 100%;
+  aspect-ratio: 16/9;
+  margin-bottom: 2rem;
+}
+
 /* Custom Component Styles */
 .content-carousel {
+  width: 100%;
   margin-bottom: 4rem;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -66,12 +138,12 @@
 /* Navigation Styles */
 .navigation {
   position: fixed;
-  top: 6rem;
-  right: 2rem;
+  top: 6.6rem;
+  right: max(2rem, calc((100vw - 1600px) / 2 + 2rem));
   width: 28%;
+  max-width: 400px;
   height: fit-content;
   z-index: 100;
-  padding-right: 1.5rem; /* Add some padding from the right edge */
 }
 
 .nav-toggle {

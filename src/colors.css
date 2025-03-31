@@ -3,13 +3,15 @@
 :root {
   --color-beige: #f5f5dc;
   --color-charcoal: #36454f;
+  --color-brown-700: #684116;
+  --color-brown-800: #523311;
   --color-brown-900: #2a1806; /* Lighter than current brown */
   --color-brown-950: #140c03; /* Current brown (base) */
   --color-brown-1000: #0a0601; /* Very dark brown (almost black but with brown tint) */
   --color-offwhite: #e4f4ff;
   --color-earth: #d69e37;
   --color-sand: #8a3434;
-  --color-landscape: #2e7d32;
+  --color-landscape: #256628;
   --color-magic: #9c27b0;
 
   /* Red color scale (intermediate shades) */
