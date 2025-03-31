@@ -66,10 +66,12 @@
 /* Navigation Styles */
 .navigation {
   position: fixed;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 6rem;
+  right: 2rem;
+  width: 28%;
+  height: fit-content;
   z-index: 100;
+  padding-right: 1.5rem; /* Add some padding from the right edge */
 }
 
 .nav-toggle {
@@ -97,12 +99,13 @@
   border-radius: 0.5rem;
   font-family: var(--font-headline);
   font-weight: 500;
-  font-size: 1.7rem;
+  font-size: 1.75rem;
   line-height: 1.1;
   color: var(--color-offwhite);
   cursor: pointer;
   transition: all 200ms ease;
   opacity: 0.8;
+  margin-bottom: 0.5rem;
 }
 
 .nav-item:hover {
@@ -123,7 +126,7 @@
     top: auto;
     bottom: 1rem;
     right: 1rem;
-    transform: none;
+    width: auto;
   }
 
   .nav-toggle {
@@ -145,12 +148,6 @@
 }
 
 @media (min-width: 1024px) {
-  .navigation {
-    position: sticky;
-    top: 2rem;
-    transform: none;
-  }
-
   .nav-content {
     display: block !important;
   }
