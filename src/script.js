@@ -12,7 +12,7 @@ let isUserSeeking = false;
 // Initialize everything after DOM is loaded
 document.addEventListener("DOMContentLoaded", async () => {
   // DOM Elements
-  const contentSection = document.querySelector(".content-section");
+  const contentSection = document.querySelector(".content-carousel");
   const navToggle = document.querySelector(".nav-toggle");
   const navContent = document.querySelector(".nav-content");
   const navItems = document.querySelectorAll(".nav-item");

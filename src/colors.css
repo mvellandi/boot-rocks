@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+:root {
+  --color-beige: #f5f5dc;
+  --color-charcoal: #36454f;
+  --color-brown-900: #2a1806; /* Lighter than current brown */
+  --color-brown-950: #140c03; /* Current brown (base) */
+  --color-brown-1000: #0a0601; /* Very dark brown (almost black but with brown tint) */
+  --color-offwhite: #e4f4ff;
+  --color-earth: #b68427;
+  --color-sand: #8a3434;
+  --color-landscape: #2e7d32;
+  --color-magic: #9c27b0;
+
+  /* Brown color scale (intermediate shades) */
+  --color-brown-910: color-mix(
+    in srgb,
+    var(--color-brown-900) 90%,
+    var(--color-brown-950) 10%
+  );
+  --color-brown-920: color-mix(
+    in srgb,
+    var(--color-brown-900) 80%,
+    var(--color-brown-950) 20%
+  );
+  --color-brown-930: color-mix(
+    in srgb,
+    var(--color-brown-900) 60%,
+    var(--color-brown-950) 40%
+  );
+  --color-brown-940: color-mix(
+    in srgb,
+    var(--color-brown-900) 40%,
+    var(--color-brown-950) 60%
+  );
+  --color-brown-960: color-mix(
+    in srgb,
+    var(--color-brown-950) 90%,
+    var(--color-brown-1000) 10%
+  );
+  --color-brown-970: color-mix(
+    in srgb,
+    var(--color-brown-950) 80%,
+    var(--color-brown-1000) 20%
+  );
+  --color-brown-980: color-mix(
+    in srgb,
+    var(--color-brown-950) 60%,
+    var(--color-brown-1000) 40%
+  );
+  --color-brown-990: color-mix(
+    in srgb,
+    var(--color-brown-950) 40%,
+    var(--color-brown-1000) 60%
+  );
+  --color-brown-995: color-mix(
+    in srgb,
+    var(--color-brown-990) 50%,
+    var(--color-brown-1000) 50%
+  );
+  --color-brown-998: color-mix(
+    in srgb,
+    var(--color-brown-990) 20%,
+    var(--color-brown-1000) 80%
+  );
+
+  /* Amber color scale (intermediate shades between amber-900, amber-950, and very dark amber) */
+  --color-amber-900: #78350f; /* Tailwind's amber-900 */
+  --color-amber-950: #451a03; /* Tailwind's amber-950 */
+  --color-amber-1000: #010000; /* Very dark amber (almost black but with amber tint) */
+  --color-amber-910: color-mix(
+    in srgb,
+    var(--color-amber-900) 90%,
+    var(--color-amber-950) 10%
+  );
+  --color-amber-920: color-mix(
+    in srgb,
+    var(--color-amber-900) 80%,
+    var(--color-amber-950) 20%
+  );
+  --color-amber-930: color-mix(
+    in srgb,
+    var(--color-amber-900) 60%,
+    var(--color-amber-950) 40%
+  );
+  --color-amber-940: color-mix(
+    in srgb,
+    var(--color-amber-900) 40%,
+    var(--color-amber-950) 60%
+  );
+  --color-amber-960: color-mix(
+    in srgb,
+    var(--color-amber-950) 90%,
+    var(--color-amber-1000) 10%
+  );
+  --color-amber-970: color-mix(
+    in srgb,
+    var(--color-amber-950) 80%,
+    var(--color-amber-1000) 20%
+  );
+  --color-amber-980: color-mix(
+    in srgb,
+    var(--color-amber-950) 60%,
+    var(--color-amber-1000) 40%
+  );
+  --color-amber-990: color-mix(
+    in srgb,
+    var(--color-amber-950) 40%,
+    var(--color-amber-1000) 60%
+  );
+  --color-amber-995: color-mix(
+    in srgb,
+    var(--color-amber-990) 50%,
+    var(--color-amber-1000) 50%
+  );
+  --color-amber-998: color-mix(
+    in srgb,
+    var(--color-amber-990) 20%,
+    var(--color-amber-1000) 80%
+  );
+}
