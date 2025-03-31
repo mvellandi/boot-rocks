@@ -1,0 +1,22 @@
+{
+  "name": "boot-rocks",
+  "version": "1.0.0",
+  "description": "A fan website for boot.dev that showcases its key features and benefits",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.1.4"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.0.17",
+    "@vimeo/player": "^2.26.0",
+    "tailwindcss": "^4.0.17"
+  }
+}
