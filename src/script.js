@@ -3,6 +3,7 @@ import Player from "@vimeo/player";
 
 // Constants
 const VIMEO_VIDEO_ID = "1070758632";
+const DEBUG_MODE = true; // Global debug flag to prevent video playback
 
 // State Management
 let player = null;
@@ -52,12 +53,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Event Listeners
       player.on("timeupdate", handleTimeUpdate);
 
-      // If we have a hash, seek to the correct time and start playing
+      // If we have a hash, seek to the correct time but don't play in debug mode
       if (hash && initialSection) {
         isUserSeeking = true;
         await player.setCurrentTime(parseFloat(initialSection.dataset.start));
-        await player.play();
+        if (!DEBUG_MODE) {
+          await player.play();
+        }
         isUserSeeking = false;
+      }
+
+      // In debug mode, ensure video stays paused
+      if (DEBUG_MODE) {
+        player.on("play", () => player.pause());
       }
     } catch (error) {
       console.error("Error initializing player:", error);
@@ -133,7 +141,11 @@ function handleNavClick(event) {
 
   player
     .setCurrentTime(parseFloat(section.dataset.start))
-    .then(() => player.play())
+    .then(() => {
+      if (!DEBUG_MODE) {
+        return player.play();
+      }
+    })
     .then(() => {
       isUserSeeking = false;
     })

@@ -56,7 +56,7 @@
   font-size: 3rem; /* text-3xl */
   font-weight: 500; /* font-bold */
   margin-bottom: 0.5rem; /* mb-4 */
-  color: var(--color-earth);
+  color: var(--color-yellow-500);
 }
 
 .content-carousel section p {
@@ -97,7 +97,7 @@
   border-radius: 0.5rem;
   font-family: var(--font-headline);
   font-weight: 500;
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   line-height: 1.1;
   color: var(--color-offwhite);
   cursor: pointer;
@@ -106,12 +106,12 @@
 }
 
 .nav-item:hover {
-  background-color: var(--color-sand);
+  background-color: var(--color-red-850);
   opacity: 1;
 }
 
 .nav-item.active {
-  background-color: var(--color-earth);
+  background-color: var(--color-yellow-600);
   color: white;
   opacity: 1;
 }

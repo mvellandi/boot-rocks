@@ -7,10 +7,17 @@
   --color-brown-950: #140c03; /* Current brown (base) */
   --color-brown-1000: #0a0601; /* Very dark brown (almost black but with brown tint) */
   --color-offwhite: #e4f4ff;
-  --color-earth: #b68427;
+  --color-earth: #d69e37;
   --color-sand: #8a3434;
   --color-landscape: #2e7d32;
   --color-magic: #9c27b0;
+
+  /* Red color scale (intermediate shades) */
+  --color-red-850: color-mix(
+    in srgb,
+    var(--color-red-800) 50%,
+    var(--color-red-900) 50%
+  );
 
   /* Brown color scale (intermediate shades) */
   --color-brown-910: color-mix(
