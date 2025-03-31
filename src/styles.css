@@ -31,7 +31,8 @@ body {
   font-family: var(--font-body);
   max-width: 1600px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 4rem;
+  padding-top: 1rem;
 }
 
 /* Site Header */
@@ -43,12 +44,13 @@ body {
   left: 0;
   right: 0;
   z-index: 50;
-  padding: 1rem 0;
+  padding-top: 2rem;
+  padding-bottom: 0.5rem;
 
   & .header-container {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 4rem;
     display: grid;
     grid-template-columns: 1fr 28%;
     gap: 12px;
