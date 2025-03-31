@@ -79,8 +79,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     navContent.classList.toggle("active");
   });
 
-  // Add click handler for navigation
-  navContent.addEventListener("click", handleNavClick);
+  // Add click handlers directly to each nav item
+  navItems.forEach((item) => {
+    item.addEventListener("click", async (event) => {
+      event.preventDefault();
+      const sectionId = item.dataset.section;
+      const section = document.getElementById(sectionId);
+      if (!section || !player) return;
+
+      try {
+        // Update UI immediately
+        updateActiveSection(sectionId);
+
+        // Update URL hash without triggering scroll
+        history.pushState(null, null, `#${sectionId}`);
+
+        // Seek to the correct time
+        isUserSeeking = true;
+        await player.setCurrentTime(parseFloat(section.dataset.start));
+        isUserSeeking = false;
+
+        // Close mobile navigation if open
+        if (window.innerWidth < 1024) {
+          navToggle?.setAttribute("aria-expanded", "false");
+          navContent?.classList.remove("active");
+        }
+      } catch (error) {
+        console.error("Error during navigation:", error);
+        isUserSeeking = false;
+      }
+    });
+  });
 });
 
 // Helper Functions
@@ -122,43 +151,5 @@ function handleTimeUpdate({ seconds }) {
     updateActiveSection(sectionId);
     // Update URL hash without scrolling
     history.replaceState(null, null, `#${sectionId}`);
-  }
-}
-
-function handleNavClick(event) {
-  const button = event.target.closest(".nav-item");
-  if (!button || !player) return;
-
-  const sectionId = button.dataset.section;
-  const section = document.getElementById(sectionId);
-  if (!section) return;
-
-  isUserSeeking = true;
-
-  // Update UI immediately
-  updateActiveSection(sectionId);
-  history.pushState(null, null, `#${sectionId}`);
-
-  player
-    .setCurrentTime(parseFloat(section.dataset.start))
-    .then(() => {
-      if (!DEBUG_MODE) {
-        return player.play();
-      }
-    })
-    .then(() => {
-      isUserSeeking = false;
-    })
-    .catch((error) => {
-      console.error("Error during playback:", error);
-      isUserSeeking = false;
-    });
-
-  // Close mobile navigation if open
-  if (window.innerWidth < 1024) {
-    const navToggle = document.querySelector(".nav-toggle");
-    const navContent = document.querySelector(".nav-content");
-    navToggle?.setAttribute("aria-expanded", "false");
-    navContent?.classList.remove("active");
   }
 }
