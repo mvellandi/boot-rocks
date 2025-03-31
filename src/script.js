@@ -79,35 +79,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     navContent.classList.toggle("active");
   });
 
-  // Add click handlers directly to each nav item
+  // Add click handlers to navigation items
   navItems.forEach((item) => {
     item.addEventListener("click", async (event) => {
-      event.preventDefault();
-      const sectionId = item.dataset.section;
-      const section = document.getElementById(sectionId);
-      if (!section || !player) return;
-
-      try {
-        // Update UI immediately
-        updateActiveSection(sectionId);
-
-        // Update URL hash without triggering scroll
-        history.pushState(null, null, `#${sectionId}`);
-
-        // Seek to the correct time
-        isUserSeeking = true;
-        await player.setCurrentTime(parseFloat(section.dataset.start));
-        isUserSeeking = false;
-
-        // Close mobile navigation if open
-        if (window.innerWidth < 1024) {
-          navToggle?.setAttribute("aria-expanded", "false");
-          navContent?.classList.remove("active");
-        }
-      } catch (error) {
-        console.error("Error during navigation:", error);
-        isUserSeeking = false;
-      }
+      event.preventDefault(); // Prevent default anchor behavior
+      const section = event.currentTarget.dataset.section;
+      updateActiveSection(section);
+      history.pushState({ section }, "", `#${section}`);
+      await player.seekTo(getSectionStartTime(section));
     });
   });
 });
