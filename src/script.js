@@ -125,16 +125,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Close menu when clicking a menu item
+  // Add event listeners to mobile menu items
   const menuItems = mobileMenu.querySelectorAll("li");
   menuItems.forEach((item) => {
     item.addEventListener("click", async (event) => {
       event.preventDefault();
+      // Close menu first
+      mobileMenu.classList.remove("active");
+      mobileMenuButton.setAttribute("aria-expanded", "false");
+
+      // Then update content
       const section = event.currentTarget.dataset.section;
       updateActiveSection(section);
       history.pushState({ section }, "", `#${section}`);
       await player.seekTo(getSectionStartTime(section));
-      toggleMobileMenu();
     });
   });
 });
