@@ -140,8 +140,10 @@ body {
   width: 100%;
 
   @media (min-width: 1024px) {
-    display: grid;
     grid-template-columns: 1fr 28%;
+    grid-template-areas:
+      "video nav"
+      "content nav";
   }
 }
 
@@ -151,6 +153,10 @@ body {
   margin-bottom: 0rem;
   overflow: hidden;
   position: relative;
+
+  @media (min-width: 1024px) {
+    grid-area: video;
+  }
 }
 
 .mobile-menu-button {
@@ -281,6 +287,10 @@ body {
   min-height: 200px;
   padding-top: 2.5rem;
 
+  @media (min-width: 1024px) {
+    grid-area: content;
+  }
+
   &.loaded {
     opacity: 1;
   }
@@ -326,9 +336,10 @@ body {
   z-index: 700;
 
   @media (min-width: 1024px) {
+    position: fixed;
     top: 6rem;
-    bottom: auto;
     right: max(2rem, calc((100vw - 1600px) / 2 + 2rem));
+    bottom: auto;
     width: 28%;
   }
 }
