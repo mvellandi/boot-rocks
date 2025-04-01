@@ -89,6 +89,40 @@ document.addEventListener("DOMContentLoaded", async () => {
       await player.seekTo(getSectionStartTime(section));
     });
   });
+
+  // Mobile Menu Functionality
+  const mobileMenuButton = document.querySelector(".mobile-menu-button");
+  const mobileMenu = document.querySelector(".mobile-menu");
+  const mobileMenuClose = document.querySelector(".mobile-menu-close");
+
+  function toggleMobileMenu() {
+    mobileMenu.classList.toggle("active");
+    mobileMenuButton.setAttribute(
+      "aria-expanded",
+      mobileMenuButton.getAttribute("aria-expanded") === "true"
+        ? "false"
+        : "true"
+    );
+  }
+
+  // Open menu when clicking the button
+  mobileMenuButton.addEventListener("click", toggleMobileMenu);
+
+  // Close menu when clicking the close button
+  mobileMenuClose.addEventListener("click", toggleMobileMenu);
+
+  // Close menu when clicking the overlay (background)
+  mobileMenu.addEventListener("click", (e) => {
+    if (e.target === mobileMenu) {
+      toggleMobileMenu();
+    }
+  });
+
+  // Close menu when clicking a menu item
+  const menuItems = mobileMenu.querySelectorAll("li");
+  menuItems.forEach((item) => {
+    item.addEventListener("click", toggleMobileMenu);
+  });
 });
 
 // Helper Functions
