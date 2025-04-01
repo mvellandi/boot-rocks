@@ -182,7 +182,7 @@ body {
 .content-carousel {
   width: 100%;
   margin-bottom: 4rem;
-  margin-top: 1.2rem;
+  margin-top: 1rem;
   opacity: 0;
   transition: opacity 0.3s ease;
   position: relative;
