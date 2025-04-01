@@ -368,18 +368,6 @@ body {
   }
 }
 
-.nav-toggle {
-  display: block;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-
-  @media (min-width: 1024px) {
-    display: none;
-  }
-}
-
 .nav-content {
   display: none;
   position: absolute;
