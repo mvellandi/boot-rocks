@@ -95,18 +95,25 @@ document.addEventListener("DOMContentLoaded", async () => {
   const mobileMenu = document.querySelector(".mobile-menu");
   const mobileMenuClose = document.querySelector(".mobile-menu-close");
 
+  if (!mobileMenuButton || !mobileMenu || !mobileMenuClose) {
+    console.error("Mobile menu elements not found");
+  }
+
   function toggleMobileMenu() {
+    if (!mobileMenu || !mobileMenuButton) return;
+
     mobileMenu.classList.toggle("active");
-    mobileMenuButton.setAttribute(
-      "aria-expanded",
-      mobileMenuButton.getAttribute("aria-expanded") === "true"
-        ? "false"
-        : "true"
-    );
+    const isExpanded =
+      mobileMenuButton.getAttribute("aria-expanded") === "true";
+    mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
   }
 
   // Open menu when clicking the button
-  mobileMenuButton.addEventListener("click", toggleMobileMenu);
+  mobileMenuButton?.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleMobileMenu();
+  });
 
   // Close menu when clicking the close button
   mobileMenuClose.addEventListener("click", toggleMobileMenu);
@@ -121,7 +128,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Close menu when clicking a menu item
   const menuItems = mobileMenu.querySelectorAll("li");
   menuItems.forEach((item) => {
-    item.addEventListener("click", toggleMobileMenu);
+    item.addEventListener("click", async (event) => {
+      event.preventDefault();
+      const section = event.currentTarget.dataset.section;
+      updateActiveSection(section);
+      history.pushState({ section }, "", `#${section}`);
+      await player.seekTo(getSectionStartTime(section));
+      toggleMobileMenu();
+    });
   });
 });
 
@@ -146,6 +160,11 @@ function updateActiveSection(sectionId) {
 
   // Update navigation
   document.querySelectorAll(".nav-item").forEach((item) => {
+    item.classList.toggle("active", item.dataset.section === sectionId);
+  });
+
+  // Update mobile menu items
+  document.querySelectorAll(".mobile-menu li").forEach((item) => {
     item.classList.toggle("active", item.dataset.section === sectionId);
   });
 

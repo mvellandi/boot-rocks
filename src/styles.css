@@ -43,7 +43,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 50;
+  z-index: 900;
   padding-top: 0.3rem;
   padding-bottom: 0.5rem;
 
@@ -168,7 +168,7 @@ body {
   transition: color 200ms ease;
   font-size: 1.3rem;
   transform: translateX(10px);
-  z-index: 100;
+  z-index: 800;
 
   &:hover {
     color: var(--color-yellow-500);
@@ -186,7 +186,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 1000;
 
   &.active {
@@ -196,7 +196,7 @@ body {
 
 .mobile-menu-panel {
   position: absolute;
-  top: 55%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 320px;
@@ -207,6 +207,7 @@ body {
     inset -3px -3px 5px var(--color-brown-950);
   padding: 1rem;
   position: relative;
+  z-index: 1001;
 }
 
 .mobile-menu-close {
@@ -215,7 +216,7 @@ body {
   right: 0;
   transform: translate(30px, -30px);
   background: var(--color-offwhite);
-  border: 5px solid var(--color-brown-950);
+  border: 5px solid var(--color-earth);
   border-radius: 100%;
   padding: 12px;
   cursor: pointer;
@@ -238,9 +239,23 @@ body {
     cursor: pointer;
     transition: color 200ms ease;
     text-shadow: 2px 2px var(--color-brown-990);
+    position: relative;
 
     &:hover {
       color: var(--color-yellow-500);
+    }
+
+    &.active {
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: var(--color-earth);
+        border-radius: 2px;
+      }
     }
   }
 }
@@ -304,7 +319,7 @@ body {
   width: auto;
   max-width: 400px;
   height: fit-content;
-  z-index: 100;
+  z-index: 700;
 
   @media (min-width: 1024px) {
     top: 6rem;
