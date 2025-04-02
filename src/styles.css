@@ -6,11 +6,14 @@
   --font-display: "Fredoka", system-ui, sans-serif;
   --font-headline: "BP", system-ui, sans-serif;
 
-  --screen-padX: 1rem;
-  --screen-padX-sm: 3rem;
-  --screen-padX-md: 4rem;
+  --screen-padX: 1.5rem;
+  --screen-padX-sm: 2.5rem;
+  --screen-padX-md: 3.2rem;
   --screen-padX-lg: 5rem;
   --screen-padX-xl: 6rem;
+
+  --header-text: 1.5rem;
+  --header-text-lg: 1.8rem;
 }
 
 /* Font Face Declarations */
@@ -49,7 +52,7 @@ body {
   @media (min-width: 1024px) {
     padding: 0 var(--screen-padX-lg);
   }
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     padding: 0 var(--screen-padX-xl);
   }
 }
@@ -63,39 +66,56 @@ body {
   left: 0;
   right: 0;
   z-index: 900;
-  padding-top: 0.3rem;
-  padding-bottom: 0.5rem;
-
-  @media (min-width: 1024px) {
-    padding-top: 1rem;
-  }
 
   & .header-container {
     display: flex;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 var(--screen-padX);
+    padding-top: 0.8rem;
+    padding-bottom: 0.5rem;
     max-width: 1600px;
     align-items: flex-end;
     justify-content: space-between;
 
     @media (min-width: 640px) {
       padding: 0 var(--screen-padX-sm);
+      padding-top: 1rem;
+      padding-bottom: 0.5rem;
     }
     @media (min-width: 768px) {
       padding: 0 var(--screen-padX-md);
+      padding-top: 3rem;
+      padding-bottom: 0.5rem;
     }
     @media (min-width: 1024px) {
       padding: 0 var(--screen-padX-lg);
+      padding-top: 3rem;
+      padding-bottom: 0.5rem;
     }
-    @media (min-width: 1024px) {
+    @media (min-width: 1280px) {
       padding: 0 var(--screen-padX-xl);
+      padding-top: 3rem;
+      padding-bottom: 0.8rem;
     }
   }
 
   & .title-section {
     display: flex;
     align-items: flex-end;
-    gap: 0;
+    gap: 0px;
+
+    @media (min-width: 640px) {
+      /* padding: 0 var(--screen-padX-sm); */
+    }
+    @media (min-width: 768px) {
+      gap: 1rem;
+    }
+    @media (min-width: 1024px) {
+      /* padding: 0 var(--screen-padX-lg); */
+    }
+    @media (min-width: 1280px) {
+      /* padding: 0 var(--screen-padX-xl); */
+    }
 
     & h1 {
       font-family: "BP";
@@ -104,9 +124,23 @@ body {
       color: var(--color-yellow-500);
       line-height: 0.9;
       text-shadow: 3px 3px var(--color-brown-990);
-      transform: translateY(5px);
+      transform: translateY(3px);
+      width: 6.25rem;
+      /* border: 1px solid white; */
 
+      @media (min-width: 640px) {
+        width: 7rem;
+        font-size: 2.5rem;
+      }
+      @media (min-width: 768px) {
+        width: initial;
+        font-size: 2.8rem;
+      }
       @media (min-width: 1024px) {
+        font-weight: 450;
+        font-size: 3.5rem;
+      }
+      @media (min-width: 1280px) {
         font-weight: 450;
         font-size: 3.5rem;
       }
@@ -119,14 +153,21 @@ body {
       color: var(--color-white);
       line-height: 1;
       margin: 0;
-      padding: 0;
+      padding: 0 1rem;
       text-shadow: 2px 2px var(--color-brown-990);
       text-align: center;
       text-wrap: balance;
-      transform: translateX(-16px);
+      /* border: 1px solid white; */
 
+      @media (min-width: 500px) {
+        padding: 0 3rem;
+        font-size: var(--header-text);
+      }
+      @media (min-width: 640px) {
+        padding: 0;
+      }
       @media (min-width: 1024px) {
-        font-size: 1.6rem;
+        font-size: var(--header-text-lg);
         font-weight: 350;
       }
     }
@@ -138,19 +179,20 @@ body {
     width: fit-content;
 
     & a {
-      font-size: 1.5rem;
+      font-size: var(--header-text);
       font-weight: 400;
       color: var(--color-gray-300);
       transition: color 200ms ease;
       line-height: 1;
       text-shadow: 2px 2px var(--color-brown-990);
 
+      @media (min-width: 1024px) {
+        font-size: var(--header-text-lg);
+      }
+
       &:hover {
         color: var(--color-earth);
       }
-    }
-    @media (min-width: 1024px) {
-      font-size: 3.5rem;
     }
   }
 }
