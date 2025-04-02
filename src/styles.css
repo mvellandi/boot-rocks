@@ -9,12 +9,12 @@
   --screen-padX: 1.5rem;
   --screen-padX-sm: 2.5rem;
   --screen-padX-md: 3.2rem;
-  --screen-padX-lg: 5rem;
+  --screen-padX-lg: 2.5rem;
   --screen-padX-xl: 6rem;
 
   --main-content-padTY: 7rem;
   --main-content-padTY-sm: 9rem;
-  --main-content-padTY-lg: 10rem;
+  --main-content-padTY-lg: 7rem;
 
   --header-text: 1.5rem;
   --header-text-lg: 1.8rem;
@@ -94,7 +94,8 @@ body {
     @media (min-width: 1024px) {
       padding-left: var(--screen-padX-lg);
       padding-right: var(--screen-padX-lg);
-      padding-top: 3.5rem;
+      padding-top: 1.5rem;
+      padding-bottom: 0.7rem;
     }
     @media (min-width: 1500px) {
       padding-left: var(--screen-padX-xl);
@@ -416,35 +417,55 @@ body {
   padding-right: 6rem;
   line-height: 1.1;
 
+  @media (min-width: 640px) {
+    font-size: 2.3rem;
+  }
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+  }
   @media (min-width: 1024px) {
+    font-size: 2.8rem;
+    padding-right: 0;
+  }
+  @media (min-width: 1920px) {
+    font-size: 3rem;
     padding-right: 0;
   }
 }
 
 .content-carousel p {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 300;
   padding-top: 0.8rem;
-  text-wrap: balance;
+  /* text-wrap: balance; */
+
+  @media (min-width: 768px) {
+    font-size: 1.4rem;
+  }
+  @media (min-width: 1024px) {
+    font-size: 1.4rem;
+  }
+  @media (min-width: 1920px) {
+    /* font-size: 3rem; */
+  }
 }
 
 /* Navigation Styles */
 .navigation {
   position: fixed;
-  top: var(--main-content-padTY);
-  width: auto;
-  max-width: 400px;
+  top: var(--main-content-padTY-lg);
+  right: max(2rem, calc((100vw - 1600px) / 2 + 2rem));
+  width: 28%;
+  max-width: 270px;
   height: fit-content;
   z-index: 700;
-  transform: translateX(1rem);
+  transform: translate(1rem, -0.5rem);
 
-  @media (min-width: 1024px) {
-    top: var(--main-content-padTY-lg);
-    right: max(2rem, calc((100vw - 1600px) / 2 + 2rem));
-    width: 28%;
+  @media (min-width: 1280px) {
+    max-width: 400px;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1500px) {
     right: max(2rem, calc((100vw - 1600px) / 2 + 4rem));
   }
 }
@@ -481,13 +502,13 @@ body {
 }
 
 .nav-content li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
   transition: all 200ms ease;
 }
 
 .nav-item {
   background: var(--color-red-950);
-  padding: 0.8rem 1rem;
+  padding: 0.6rem 1rem;
   border-radius: 0.5rem;
   display: block;
 
