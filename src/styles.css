@@ -17,6 +17,7 @@
   --main-content-padT-lg: 5.1rem;
   --main-content-padT-xl: 6.5rem;
   --main-content-padT-2xl: 6.8rem; /* 1536 */
+  --main-content-padT-hd: 7rem; /* 1920 */
 
   --header-text: 1.5rem;
   --header-text-lg: 1.6rem;
@@ -254,6 +255,13 @@ body {
   @media (min-width: 1536px) {
     padding-top: var(--main-content-padT-2xl);
   }
+  @media (min-width: 1920px) {
+    padding-top: var(--main-content-padT-hd);
+    grid-template-columns: 1fr 410px;
+    gap: 2.8rem;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
 }
 
 .video-container {
@@ -265,6 +273,10 @@ body {
 
   @media (min-width: 1024px) {
     grid-area: video;
+  }
+
+  @media (min-width: 1920px) {
+    margin-right: 3rem;
   }
 }
 
@@ -297,10 +309,13 @@ body {
   padding-top: 2.6rem;
 
   @media (min-width: 1024px) {
-    padding-top: 0rem;
+    padding-top: 0;
   }
   @media (min-width: 1280px) {
     padding-top: 0.8rem;
+  }
+  @media (min-width: 1920px) {
+    padding-top: 0;
   }
 }
 
@@ -331,7 +346,7 @@ body {
     text-shadow: 1.6px 1.6px var(--color-amber-800);
   }
   @media (min-width: 1920px) {
-    font-size: 3rem;
+    font-size: 2.6rem;
     padding-right: 0;
   }
 }
@@ -363,6 +378,10 @@ body {
     position: sticky;
     height: fit-content;
     z-index: 700;
+  }
+
+  @media (min-width: 1920px) {
+    width: 450px;
   }
 }
 
