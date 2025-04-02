@@ -12,6 +12,10 @@
   --screen-padX-lg: 5rem;
   --screen-padX-xl: 6rem;
 
+  --main-content-padTY: 7rem;
+  --main-content-padTY-sm: 9rem;
+  --main-content-padTY-lg: 10rem;
+
   --header-text: 1.5rem;
   --header-text-lg: 1.8rem;
 }
@@ -202,6 +206,9 @@ body {
       @media (min-width: 1024px) {
         font-size: var(--header-text-lg);
       }
+      @media (min-width: 1920px) {
+        transform: translateX(30px);
+      }
 
       &:hover {
         color: var(--color-earth);
@@ -212,15 +219,16 @@ body {
 
 /* Main Content */
 .main-content {
-  padding-top: 6rem;
+  padding-top: var(--main-content-padTY);
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
 
   @media (min-width: 640px) {
-    padding-top: 8rem;
+    padding-top: var(--main-content-padTY-sm);
   }
   @media (min-width: 1024px) {
+    padding-top: var(--main-content-padTY-lg);
     grid-template-columns: 1fr 28%;
     grid-template-areas:
       "video nav"
@@ -422,20 +430,21 @@ body {
 /* Navigation Styles */
 .navigation {
   position: fixed;
-  top: auto;
-  right: 1rem;
-  bottom: 1rem;
+  top: var(--main-content-padTY);
   width: auto;
   max-width: 400px;
   height: fit-content;
   z-index: 700;
+  transform: translateX(1rem);
 
   @media (min-width: 1024px) {
-    position: fixed;
-    top: 6rem;
+    top: var(--main-content-padTY-lg);
     right: max(2rem, calc((100vw - 1600px) / 2 + 2rem));
-    bottom: auto;
     width: 28%;
+  }
+
+  @media (min-width: 1024px) {
+    right: max(2rem, calc((100vw - 1600px) / 2 + 4rem));
   }
 }
 
