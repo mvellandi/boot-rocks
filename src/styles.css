@@ -12,12 +12,15 @@
   --screen-padX-lg: 2.5rem;
   --screen-padX-xl: 3rem;
 
+  --content-max-width: 1700px;
+
   --main-content-padT: 7rem;
   --main-content-padT-sm: 9rem;
   --main-content-padT-lg: 5.1rem;
   --main-content-padT-xl: 6.5rem;
   --main-content-padT-2xl: 6.8rem; /* 1536 */
   --main-content-padT-hd: 7rem; /* 1920 */
+  --main-content-padT-2hd: 9.2rem; /* 2300 */
 
   --header-text: 1.5rem;
   --header-text-lg: 1.6rem;
@@ -46,7 +49,7 @@ body {
   background-color: var(--color-brown-980);
   color: var(--color-charcoal);
   font-family: var(--font-body);
-  max-width: 1600px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
   padding: 0 var(--screen-padX);
   padding-top: 1rem;
@@ -81,7 +84,8 @@ body {
     padding: 0 var(--screen-padX);
     padding-top: 1rem;
     padding-bottom: 1rem;
-    max-width: 1600px;
+    max-width: var(--content-max-width);
+
     align-items: flex-end;
     justify-content: space-between;
 
@@ -108,6 +112,10 @@ body {
     }
     @media (min-width: 1536px) {
       padding-top: 1.7rem;
+    }
+    @media (min-width: 2300px) {
+      padding-top: 3rem;
+      padding-bottom: 1.2rem;
     }
   }
 
@@ -219,9 +227,6 @@ body {
       @media (min-width: 1024px) {
         font-size: var(--header-text-lg);
       }
-      @media (min-width: 1920px) {
-        transform: translateX(30px);
-      }
 
       &:hover {
         color: var(--color-earth);
@@ -257,10 +262,11 @@ body {
   }
   @media (min-width: 1920px) {
     padding-top: var(--main-content-padT-hd);
-    grid-template-columns: 1fr 410px;
+    grid-template-columns: minmax(0, 1fr) 380px;
     gap: 2.8rem;
-    max-width: 1600px;
-    margin: 0 auto;
+  }
+  @media (min-width: 2300px) {
+    padding-top: var(--main-content-padT-2hd);
   }
 }
 
@@ -381,7 +387,7 @@ body {
   }
 
   @media (min-width: 1920px) {
-    width: 450px;
+    width: 380px;
   }
 }
 
@@ -406,6 +412,9 @@ body {
     bottom: auto;
     margin-bottom: 0;
   }
+  @media (min-width: 2300px) {
+    padding: 1.4rem 1rem;
+  }
 
   &.active {
     display: block;
@@ -421,6 +430,10 @@ body {
 .nav-content li {
   margin-bottom: 0.6rem;
   transition: all 200ms ease;
+
+  @media (min-width: 2300px) {
+    margin-bottom: 0.8rem;
+  }
 }
 
 .nav-item {
@@ -428,6 +441,10 @@ body {
   padding: 0.6rem 1rem;
   border-radius: 0.5rem;
   display: block;
+
+  @media (min-width: 2300px) {
+    padding: 0.7rem 1.2rem;
+  }
 
   & a {
     color: var(--color-offwhite);
@@ -444,6 +461,11 @@ body {
 
     @media (min-width: 1536px) {
       font-size: 1.5rem;
+      line-height: 1.2;
+    }
+
+    @media (min-width: 2300px) {
+      font-size: 1.6rem;
       line-height: 1.2;
     }
 
