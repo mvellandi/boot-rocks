@@ -12,8 +12,20 @@
   --color-offwhite: #e4f4ff;
   --color-earth: #d69e37;
   --color-sand: #8a3434;
-  --color-landscape: #256628;
   --color-magic: #9c27b0;
+
+  /* Landscape */
+  --color-landscape: #256628;
+  --color-landscape-light: color-mix(
+    in srgb,
+    var(--color-landscape) 30%,
+    var(--color-emerald-300) 70%
+  );
+  --color-landscape-dark: color-mix(
+    in srgb,
+    var(--color-landscape) 30%,
+    black 70%
+  );
 
   /* Red color scale (intermediate shades) */
   --color-red-850: color-mix(
