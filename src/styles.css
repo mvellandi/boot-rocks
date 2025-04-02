@@ -199,7 +199,7 @@ body {
 
 /* Main Content */
 .main-content {
-  padding-top: 5.5rem;
+  padding-top: 6rem;
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
@@ -227,10 +227,10 @@ body {
 .mobile-menu-button {
   display: block;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 1.7rem;
+  right: -0.625rem;
   background: var(--color-brown-800);
-  border: 1px solid var(--color-earth);
+  border: 2px solid var(--color-earth);
   border-radius: 10px;
   cursor: pointer;
   padding: 0.3rem 0.7rem;
@@ -238,7 +238,7 @@ body {
   color: var(--color-white);
   transition: color 200ms ease;
   font-size: 1.3rem;
-  transform: translateX(10px);
+  /* transform: translateX(10px); */
   z-index: 800;
 
   &:hover {
@@ -375,13 +375,21 @@ body {
     font-family: var(--font-headline);
     font-size: 2rem;
     font-weight: 500;
-    margin-bottom: 0rem;
     color: var(--color-yellow-500);
+    text-wrap: balance;
+    padding-right: 6rem;
+    line-height: 1.1;
+
+    @media (min-width: 1024px) {
+      padding-right: 0;
+    }
   }
 
   p {
     font-size: 1.2rem;
     font-weight: 300;
+    padding-top: 0.5rem;
+    text-wrap: balance;
   }
 }
 
