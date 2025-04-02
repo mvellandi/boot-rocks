@@ -71,26 +71,24 @@ body {
     display: flex;
     margin: 0 auto;
     padding: 0 var(--screen-padX);
-    padding-top: 0.8rem;
-    padding-bottom: 0.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     max-width: 1600px;
     align-items: flex-end;
     justify-content: space-between;
 
     @media (min-width: 640px) {
       padding: 0 var(--screen-padX-sm);
-      padding-top: 1rem;
-      padding-bottom: 0.5rem;
     }
     @media (min-width: 768px) {
       padding: 0 var(--screen-padX-md);
       padding-top: 3rem;
-      padding-bottom: 0.5rem;
+      padding-bottom: 1rem;
     }
     @media (min-width: 1024px) {
       padding: 0 var(--screen-padX-lg);
       padding-top: 3rem;
-      padding-bottom: 0.5rem;
+      padding-bottom: 1rem;
     }
     @media (min-width: 1280px) {
       padding: 0 var(--screen-padX-xl);
@@ -185,6 +183,21 @@ body {
       transition: color 200ms ease;
       line-height: 1;
       text-shadow: 2px 2px var(--color-brown-990);
+      position: relative;
+      padding-bottom: 3px;
+      transform: translateY(3px);
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: currentColor;
+        border-radius: 1px;
+        box-shadow: 1px 1px 1px var(--color-brown-950);
+      }
 
       @media (min-width: 1024px) {
         font-size: var(--header-text-lg);
@@ -204,6 +217,9 @@ body {
   grid-template-columns: 1fr;
   width: 100%;
 
+  @media (min-width: 640px) {
+    padding-top: 8rem;
+  }
   @media (min-width: 1024px) {
     grid-template-columns: 1fr 28%;
     grid-template-areas:
