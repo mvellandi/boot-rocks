@@ -12,7 +12,8 @@
   --screen-padX-lg: 2.5rem;
   --screen-padX-xl: 3rem;
 
-  --content-max-width: 1700px;
+  --video-page-max-width: 1700px;
+  --standard-page-max-width: 1200px;
 
   --main-content-padT: 7rem;
   --main-content-padT-sm: 9rem;
@@ -49,8 +50,6 @@ body {
   background-color: var(--color-brown-980);
   color: var(--color-charcoal);
   font-family: var(--font-body);
-  max-width: var(--content-max-width);
-  margin: 0 auto;
   padding: 0 var(--screen-padX);
   padding-top: 1rem;
 
@@ -97,7 +96,6 @@ body {
     padding: 0 var(--screen-padX);
     padding-top: 1rem;
     padding-bottom: 1rem;
-    max-width: var(--content-max-width);
 
     align-items: flex-end;
     justify-content: space-between;
@@ -242,6 +240,12 @@ body {
 
       @media (min-width: 1024px) {
         font-size: var(--header-text-lg);
+      }
+      @media (min-width: 1280px) {
+        font-size: var(--header-text-xl);
+      }
+      @media (min-width: 1920px) {
+        font-size: 2rem;
       }
 
       &:hover {
@@ -653,14 +657,40 @@ section p {
   border: 0;
 }
 
-/* Custom styles can go here */
+/* Video Page Layout Styles */
+body.video-page {
+  max-width: var(--video-page-max-width);
+  margin: 0 auto;
+}
+
+body.video-page .site-header .header-container {
+  max-width: var(--video-page-max-width);
+}
 
 /* Standard Page Layout Styles */
+body.standard-page {
+  max-width: var(--standard-page-max-width);
+}
+
+body.standard-page .site-header .header-container {
+  max-width: 960px;
+  margin: 0;
+
+  @media (min-width: 1536px) {
+    max-width: 1030px;
+  }
+}
 
 body.standard-page .main-content {
   @media (min-width: 1024px) {
     grid-template-columns: 1fr;
     gap: 0;
+  }
+  @media (min-width: 1280px) {
+    padding-top: 9rem;
+  }
+  @media (min-width: 1920px) {
+    padding-top: 11rem;
   }
 }
 
