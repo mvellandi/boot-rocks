@@ -730,6 +730,7 @@ body.video-page .site-header .header-container {
 
 /* Standard Page Layout Styles */
 body.standard-page {
+  /* margin: 0 auto; */
   max-width: var(--standard-page-max-width);
 }
 
@@ -759,6 +760,9 @@ body.standard-page section {
   position: static;
   padding-top: 2rem;
   width: 100%;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
 
   @media (min-width: 1024px) {
     padding-top: 3rem;

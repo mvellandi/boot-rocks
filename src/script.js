@@ -170,6 +170,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Original carousel functionality for homepage
     // ... existing carousel code ...
   }
+
+  // Add click handlers to continue reading links
+  document.querySelectorAll('.link[href^="#"]').forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute("href").slice(1);
+      window.location.hash = targetId;
+      window.scrollTo(0, 0);
+    });
+  });
 });
 
 // Helper Functions
