@@ -32,6 +32,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateActiveSection(initialSectionId);
   }
 
+  // Add hash change event listener
+  window.addEventListener("hashchange", async () => {
+    const newHash = window.location.hash.slice(1);
+    const newSection = document.getElementById(newHash);
+
+    if (newSection && newHash !== currentSectionId) {
+      updateActiveSection(newHash);
+      if (player) {
+        isUserSeeking = true;
+        await player.setCurrentTime(parseFloat(newSection.dataset.start));
+        isUserSeeking = false;
+      }
+    }
+  });
+
   // Initialize Vimeo Player
   if (iframe) {
     player = new Player(iframe, {
