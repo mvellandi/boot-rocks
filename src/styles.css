@@ -47,7 +47,7 @@
 
 /* Base Styles */
 body {
-  background-color: var(--color-brown-980);
+  background-color: var(--color-brown-940);
   color: var(--color-charcoal);
   font-family: var(--font-body);
   padding: 0 var(--screen-padX);
