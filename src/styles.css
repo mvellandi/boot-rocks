@@ -754,6 +754,7 @@ body.standard-page .main-content {
 body.standard-page section {
   position: static;
   padding-top: 2rem;
+  padding-bottom: 6rem;
   width: 100%;
   visibility: visible;
   opacity: 1;
