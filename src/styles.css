@@ -53,6 +53,10 @@ body {
   padding: 0 var(--screen-padX);
   padding-top: 1rem;
 
+  @media (max-width: 640px) {
+    padding-top: calc(1rem + 10px);
+  }
+
   @media (min-width: 640px) {
     padding: 0 var(--screen-padX-sm);
   }
@@ -75,6 +79,22 @@ body {
   left: 0;
   right: 0;
   z-index: 900;
+
+  @media (max-width: 640px) {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background: linear-gradient(
+        to bottom,
+        var(--color-brown-850),
+        var(--color-brown-800)
+      );
+    }
+  }
 
   &::after {
     content: "";
