@@ -720,8 +720,8 @@ section ol {
 
 /* Video Page Layout Styles */
 body.video-page {
-  max-width: var(--video-page-max-width);
   margin: 0 auto;
+  max-width: var(--video-page-max-width);
 }
 
 body.video-page .site-header .header-container {
@@ -730,13 +730,12 @@ body.video-page .site-header .header-container {
 
 /* Standard Page Layout Styles */
 body.standard-page {
-  /* margin: 0 auto; */
+  margin: 0 auto;
   max-width: var(--standard-page-max-width);
 }
 
 body.standard-page .site-header .header-container {
-  max-width: 960px;
-  margin: 0;
+  max-width: var(--standard-page-max-width);
 
   @media (min-width: 1536px) {
     max-width: 1030px;
