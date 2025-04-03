@@ -327,7 +327,6 @@ body {
   left: 0;
   width: 100%;
   transition: opacity 500ms cubic-bezier(0.4, 0, 0.2, 1);
-  color: var(--color-offwhite);
   padding-top: 2.6rem;
 
   @media (min-width: 1024px) {
@@ -379,27 +378,26 @@ body {
 }
 
 .content-carousel p {
-  font-size: 1.3rem;
-  font-weight: 400;
+  color: var(--color-white);
+  font-size: 1.35rem;
+  font-weight: 300;
   padding-top: 0.4rem;
 
   @media (min-width: 768px) {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
   @media (min-width: 1024px) {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     padding-top: 0.3rem;
     max-width: 65ch;
-  }
-  @media (min-width: 1280px) {
-    font-size: 1.3rem;
-  }
-  @media (min-width: 1536px) {
-    font-size: 1.4rem;
   }
   @media (min-width: 1920px) {
     font-size: 1.5rem;
     max-width: 75ch;
+  }
+  @media (min-width: 2300px) {
+    font-size: 1.6rem;
+    /* max-width: 75ch; */
   }
 }
 
@@ -476,7 +474,7 @@ body {
   }
 
   & a {
-    color: var(--color-offwhite);
+    color: var(--color-white-500);
     text-decoration: none;
     font-size: 1.3rem;
     line-height: 1.1;
@@ -616,10 +614,11 @@ body {
   & li {
     color: var(--color-white);
     font-size: 1.4rem;
+    font-weight: 500;
     padding: 0.5rem 0;
     cursor: pointer;
     transition: color 200ms ease;
-    text-shadow: 2px 2px var(--color-brown-990);
+    text-shadow: 2px 2px var(--color-brown-990), 6px 6px 8px rgba(0, 0, 0, 0.3);
     position: relative;
 
     @media (min-width: 640px) {

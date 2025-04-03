@@ -10,7 +10,9 @@
   --color-brown-950: #140c03; /* Current brown (base) */
   --color-brown-1000: #0a0601; /* Very dark brown (almost black but with brown tint) */
   --color-red-1000: #050000; /* Very dark red (almost black but with red tint) */
-  --color-offwhite: #e4f4ff;
+  --color-white: white;
+  --color-white-500: whitesmoke;
+  --color-white-700: #e4f4ff;
   --color-earth: #d69e37;
   --color-sand: #8a3434;
   --color-magic: #9c27b0;
