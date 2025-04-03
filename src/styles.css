@@ -15,7 +15,7 @@
   --video-page-max-width: 1700px;
   --standard-page-max-width: 1200px;
 
-  --main-content-padT: 7rem;
+  --main-content-padT: 6rem;
   --main-content-padT-sm: 9rem;
   --main-content-padT-lg: 5.1rem;
   --main-content-padT-xl: 6.5rem;
@@ -51,7 +51,6 @@ body {
   color: var(--color-charcoal);
   font-family: var(--font-body);
   padding: 0 var(--screen-padX);
-  padding-top: 1rem;
 
   @media (max-width: 640px) {
     padding-top: calc(1rem + 10px);
