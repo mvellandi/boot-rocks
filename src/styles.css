@@ -13,7 +13,7 @@
   --screen-padX-xl: 3rem;
 
   --video-page-max-width: 1700px;
-  --standard-page-max-width: 1200px;
+  --standard-page-max-width: 1000px;
 
   --main-content-padT: 6rem;
   --main-content-padT-sm: 9rem;
@@ -736,10 +736,6 @@ body.standard-page {
 
 body.standard-page .site-header .header-container {
   max-width: var(--standard-page-max-width);
-
-  @media (min-width: 1536px) {
-    max-width: 1030px;
-  }
 }
 
 body.standard-page .main-content {
