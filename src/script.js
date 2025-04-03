@@ -141,6 +141,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       await player.seekTo(getSectionStartTime(section));
     });
   });
+
+  // Check if we're on the about page
+  const isAboutPage = document.body.classList.contains("about-page");
+
+  if (isAboutPage) {
+    // For about page, just show the content immediately
+    const contentCarousel = document.querySelector(".content-carousel");
+    if (contentCarousel) {
+      contentCarousel.style.opacity = "1";
+    }
+  } else {
+    // Original carousel functionality for homepage
+    // ... existing carousel code ...
+  }
 });
 
 // Helper Functions
