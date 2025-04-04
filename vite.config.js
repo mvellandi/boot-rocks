@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [tailwindcss()],
   base: "/",
   root: "src",
+  publicDir: "../public",
   build: {
     outDir: "../docs",
     emptyOutDir: true,
@@ -14,6 +15,7 @@ export default defineConfig({
         about: "src/about.html",
       },
     },
+    copyPublicDir: true,
   },
   server: {
     host: "0.0.0.0",
