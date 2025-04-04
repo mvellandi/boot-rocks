@@ -310,7 +310,7 @@ body {
   aspect-ratio: 16/9;
   overflow: hidden;
   position: relative;
-  border: 1px solid white;
+  /* border: 1px solid white; */
 
   @media (min-width: 1024px) {
     grid-area: video;
