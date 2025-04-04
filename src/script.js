@@ -2,7 +2,7 @@
 import Player from "@vimeo/player";
 
 // Constants
-const VIMEO_VIDEO_ID = "1070758632";
+const VIMEO_VIDEO_ID = "1072643347";
 const DEBUG_MODE = false; // Global debug flag to prevent video playback
 
 // State Management
