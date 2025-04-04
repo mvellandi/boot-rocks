@@ -379,7 +379,8 @@ section h2 {
 }
 
 section p,
-ol {
+ol,
+.link-box {
   font-size: 1.35rem;
   font-weight: 300;
   /* padding-top: 0.4rem; */
@@ -813,12 +814,11 @@ body.standard-page section p {
 
   > * {
     display: inline-block;
-    border: 1px solid white;
+    /* border: 1px solid white; */
   }
 
   > a {
     text-decoration: none;
-    /* text-wrap: balance; */
   }
 
   @media (min-width: 768px) {
