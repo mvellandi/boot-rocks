@@ -9,6 +9,7 @@ const DEBUG_MODE = false; // Global debug flag to prevent video playback
 let player = null;
 let currentSectionId = null;
 let isUserNavigating = false; // Flag to track user navigation
+let playerInitialized = false;
 
 // Helper Functions
 function getSectionStartTime(sectionId) {
@@ -68,9 +69,31 @@ document.addEventListener("DOMContentLoaded", async () => {
   const contentSection = document.querySelector(".content-carousel");
   const navItems = document.querySelectorAll(".nav-item");
   const iframe = document.getElementById("vimeo-player");
+  const thumbnailOverlay = document.getElementById("thumbnail-overlay");
+  const videoThumbnail = document.getElementById("video-thumbnail");
 
   // Show the content section immediately
   contentSection.classList.remove("opacity-0");
+
+  // Fetch thumbnail from Vimeo oEmbed API
+  try {
+    const response = await fetch(
+      `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${VIMEO_VIDEO_ID}&width=1920&maxwidth=1920`
+    );
+    const data = await response.json();
+    if (data.thumbnail_url) {
+      // Replace _640x360 with _1920x1080 to get the highest quality thumbnail
+      const highResThumb = data.thumbnail_url.replace(
+        /_\d+x\d+\./,
+        "_1920x1080."
+      );
+      videoThumbnail.src = highResThumb;
+    }
+  } catch (error) {
+    console.error("Error fetching thumbnail:", error);
+    // Fallback to a default thumbnail if needed
+    videoThumbnail.src = "https://i.vimeocdn.com/video/default-1920x1080.jpg";
+  }
 
   // Handle initial navigation based on hash
   const hash = window.location.hash.slice(1);
@@ -89,51 +112,61 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Initialize Vimeo Player
   if (iframe) {
-    player = new Player(iframe, {
-      id: VIMEO_VIDEO_ID,
-      width: "100%",
-      height: "100%",
-      responsive: true,
-      autoplay: false,
-      controls: true,
-      title: false,
-      byline: false,
-      portrait: false,
-    });
+    // Set up click handler for thumbnail overlay
+    thumbnailOverlay.addEventListener("click", async () => {
+      if (!playerInitialized) {
+        // Show the iframe behind the thumbnail
+        iframe.style.display = "block";
+        iframe.style.opacity = "0"; // Hide the iframe initially
 
-    try {
-      // Wait for player to be ready
-      await player.ready();
-      console.log("Player ready, seeking to:", initialTime);
+        // Initialize the player
+        player = new Player(iframe, {
+          id: VIMEO_VIDEO_ID,
+          width: "100%",
+          height: "100%",
+          responsive: true,
+          autoplay: false,
+          controls: true,
+          title: false,
+          byline: false,
+          portrait: false,
+        });
 
-      // Event Listeners
-      player.on("timeupdate", handleTimeUpdate);
+        try {
+          // Wait for player to be ready
+          await player.ready();
+          console.log("Player ready, seeking to:", initialTime);
 
-      // Always seek to initial time after player is ready
-      if (initialTime > 0) {
-        isUserNavigating = true;
-        await player.setCurrentTime(initialTime);
-        console.log("Seeked to:", initialTime);
+          // Event Listeners
+          player.on("timeupdate", handleTimeUpdate);
 
-        // Get current time to verify
-        const currentTime = await player.getCurrentTime();
-        console.log("Current time after seek:", currentTime);
+          // Set the time first
+          if (initialTime > 0) {
+            await player.setCurrentTime(initialTime);
+          }
 
-        if (!DEBUG_MODE) {
+          // Load the video and prepare it for playback
           await player.play();
-        }
-        setTimeout(() => {
-          isUserNavigating = false;
-        }, 1000);
-      }
+          await player.pause();
 
-      // In debug mode, ensure video stays paused
-      if (DEBUG_MODE) {
-        player.on("play", () => player.pause());
+          // Now that everything is ready, switch from thumbnail to video
+          iframe.style.opacity = "1"; // Show the iframe
+          thumbnailOverlay.style.opacity = "0"; // Fade out thumbnail
+
+          // Start playing
+          await player.play();
+
+          // Remove the thumbnail overlay after fade out
+          setTimeout(() => {
+            thumbnailOverlay.style.display = "none";
+          }, 400); // Match this with your CSS transition duration
+
+          playerInitialized = true;
+        } catch (error) {
+          console.error("Error initializing player:", error);
+        }
       }
-    } catch (error) {
-      console.error("Error initializing player:", error);
-    }
+    });
   }
 
   // Add hash change event listener
@@ -153,9 +186,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (wasPlaying) {
           await player.play();
         }
-        setTimeout(() => {
-          isUserNavigating = false;
-        }, 1000);
       }
     }
   });
