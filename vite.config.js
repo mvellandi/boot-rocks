@@ -8,6 +8,12 @@ export default defineConfig({
   build: {
     outDir: "../docs",
     emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: "src/index.html",
+        about: "src/about.html",
+      },
+    },
   },
   server: {
     host: "0.0.0.0",
