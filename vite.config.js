@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [tailwindcss()],
-  base: "/boot-rocks/",
+  base: "/",
   root: "src",
   build: {
     outDir: "../docs",
