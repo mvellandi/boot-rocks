@@ -3,19 +3,69 @@ import Player from "@vimeo/player";
 
 // Constants
 const VIMEO_VIDEO_ID = "1070758632";
-const DEBUG_MODE = true; // Global debug flag to prevent video playback
+const DEBUG_MODE = false; // Global debug flag to prevent video playback
 
 // State Management
 let player = null;
 let currentSectionId = null;
-let isUserSeeking = false;
+let isUserNavigating = false; // Flag to track user navigation
+
+// Helper Functions
+function getSectionStartTime(sectionId) {
+  const section = document.getElementById(sectionId);
+  return section ? parseFloat(section.dataset.start) : 0;
+}
+
+function getActiveSectionId(currentTime) {
+  const sections = Array.from(
+    document.querySelectorAll(".content-carousel section")
+  );
+  return sections.find((section, index) => {
+    const start = parseFloat(section.dataset.start);
+    // Get end time from next section's start, or use a large number for the last section
+    const end =
+      index < sections.length - 1
+        ? parseFloat(sections[index + 1].dataset.start)
+        : Number.MAX_SAFE_INTEGER;
+    return currentTime >= start && currentTime < end;
+  })?.id;
+}
+
+function updateActiveSection(sectionId) {
+  if (currentSectionId === sectionId) return;
+
+  // Update navigation
+  document.querySelectorAll(".nav-item").forEach((item) => {
+    item.classList.toggle("active", item.dataset.section === sectionId);
+  });
+
+  // Update mobile menu items
+  document.querySelectorAll(".mobile-menu li").forEach((item) => {
+    item.classList.toggle("active", item.dataset.section === sectionId);
+  });
+
+  // Update content sections
+  document.querySelectorAll(".content-carousel section").forEach((section) => {
+    section.classList.toggle("active", section.id === sectionId);
+  });
+
+  currentSectionId = sectionId;
+}
+
+// Event Handlers
+function handleTimeUpdate({ seconds }) {
+  const sectionId = getActiveSectionId(seconds);
+  if (sectionId && !isUserNavigating) {
+    updateActiveSection(sectionId);
+    // Update URL hash without scrolling
+    history.replaceState(null, null, `#${sectionId}`);
+  }
+}
 
 // Initialize everything after DOM is loaded
 document.addEventListener("DOMContentLoaded", async () => {
   // DOM Elements
   const contentSection = document.querySelector(".content-carousel");
-  const navToggle = document.querySelector(".nav-toggle");
-  const navContent = document.querySelector(".nav-content");
   const navItems = document.querySelectorAll(".nav-item");
   const iframe = document.getElementById("vimeo-player");
 
@@ -26,26 +76,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const hash = window.location.hash.slice(1);
   const initialSectionId = hash || "intro";
   const initialSection = document.getElementById(initialSectionId);
+  const initialTime = initialSection
+    ? parseFloat(initialSection.dataset.start)
+    : 0;
+
+  console.log("Initial section:", initialSectionId, "Time:", initialTime);
 
   if (initialSection) {
     // Update UI immediately for direct navigation
     updateActiveSection(initialSectionId);
   }
-
-  // Add hash change event listener
-  window.addEventListener("hashchange", async () => {
-    const newHash = window.location.hash.slice(1);
-    const newSection = document.getElementById(newHash);
-
-    if (newSection && newHash !== currentSectionId) {
-      updateActiveSection(newHash);
-      if (player) {
-        isUserSeeking = true;
-        await player.setCurrentTime(parseFloat(newSection.dataset.start));
-        isUserSeeking = false;
-      }
-    }
-  });
 
   // Initialize Vimeo Player
   if (iframe) {
@@ -64,18 +104,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       // Wait for player to be ready
       await player.ready();
+      console.log("Player ready, seeking to:", initialTime);
 
       // Event Listeners
       player.on("timeupdate", handleTimeUpdate);
 
-      // If we have a hash, seek to the correct time but don't play in debug mode
-      if (hash && initialSection) {
-        isUserSeeking = true;
-        await player.setCurrentTime(parseFloat(initialSection.dataset.start));
+      // Always seek to initial time after player is ready
+      if (initialTime > 0) {
+        isUserNavigating = true;
+        await player.setCurrentTime(initialTime);
+        console.log("Seeked to:", initialTime);
+
+        // Get current time to verify
+        const currentTime = await player.getCurrentTime();
+        console.log("Current time after seek:", currentTime);
+
         if (!DEBUG_MODE) {
           await player.play();
         }
-        isUserSeeking = false;
+        setTimeout(() => {
+          isUserNavigating = false;
+        }, 1000);
       }
 
       // In debug mode, ensure video stays paused
@@ -87,21 +136,55 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Navigation Toggle for Mobile
-  navToggle?.addEventListener("click", () => {
-    const isExpanded = navToggle.getAttribute("aria-expanded") === "true";
-    navToggle.setAttribute("aria-expanded", !isExpanded);
-    navContent.classList.toggle("active");
+  // Add hash change event listener
+  window.addEventListener("hashchange", async () => {
+    const newHash = window.location.hash.slice(1);
+    const newSection = document.getElementById(newHash);
+
+    if (newSection && newHash !== currentSectionId) {
+      updateActiveSection(newHash);
+      if (player) {
+        isUserNavigating = true;
+        const wasPlaying = await player.getPaused().then((paused) => !paused);
+        if (wasPlaying) {
+          await player.pause();
+        }
+        await player.setCurrentTime(parseFloat(newSection.dataset.start));
+        if (wasPlaying) {
+          await player.play();
+        }
+        setTimeout(() => {
+          isUserNavigating = false;
+        }, 1000);
+      }
+    }
   });
 
   // Add click handlers to navigation items
   navItems.forEach((item) => {
     item.addEventListener("click", async (event) => {
       event.preventDefault(); // Prevent default anchor behavior
+      isUserNavigating = true; // Set flag when user initiates navigation
       const section = event.currentTarget.dataset.section;
       updateActiveSection(section);
       history.pushState({ section }, "", `#${section}`);
-      await player.seekTo(getSectionStartTime(section));
+
+      // Handle video navigation
+      if (player) {
+        const wasPlaying = await player.getPaused().then((paused) => !paused);
+        if (wasPlaying) {
+          await player.pause();
+        }
+        await player.setCurrentTime(getSectionStartTime(section));
+        if (wasPlaying) {
+          await player.play();
+        }
+      }
+
+      // Reset flag after a short delay to allow navigation to complete
+      setTimeout(() => {
+        isUserNavigating = false;
+      }, 1000);
     });
   });
 
@@ -153,78 +236,46 @@ document.addEventListener("DOMContentLoaded", async () => {
       const section = event.currentTarget.dataset.section;
       updateActiveSection(section);
       history.pushState({ section }, "", `#${section}`);
-      await player.seekTo(getSectionStartTime(section));
+
+      // Handle video navigation
+      if (player) {
+        const wasPlaying = await player.getPaused().then((paused) => !paused);
+        if (wasPlaying) {
+          await player.pause();
+        }
+        await player.setCurrentTime(getSectionStartTime(section));
+        if (wasPlaying) {
+          await player.play();
+        }
+      }
     });
   });
-
-  // Check if we're on the about page
-  const isAboutPage = document.body.classList.contains("about-page");
-
-  if (isAboutPage) {
-    // For about page, just show the content immediately
-    const contentCarousel = document.querySelector(".content-carousel");
-    if (contentCarousel) {
-      contentCarousel.style.opacity = "1";
-    }
-  } else {
-    // Original carousel functionality for homepage
-    // ... existing carousel code ...
-  }
 
   // Add click handlers to continue reading links
   document.querySelectorAll('.link[href^="#"]').forEach((link) => {
-    link.addEventListener("click", (e) => {
+    link.addEventListener("click", async (e) => {
       e.preventDefault();
+      isUserNavigating = true; // Set flag when user initiates navigation
       const targetId = link.getAttribute("href").slice(1);
       window.location.hash = targetId;
       window.scrollTo(0, 0);
+
+      // Handle video navigation
+      if (player) {
+        const wasPlaying = await player.getPaused().then((paused) => !paused);
+        if (wasPlaying) {
+          await player.pause();
+        }
+        await player.setCurrentTime(getSectionStartTime(targetId));
+        if (wasPlaying) {
+          await player.play();
+        }
+      }
+
+      // Reset flag after a short delay to allow navigation to complete
+      setTimeout(() => {
+        isUserNavigating = false;
+      }, 1000);
     });
   });
 });
-
-// Helper Functions
-function getActiveSectionId(currentTime) {
-  const sections = Array.from(
-    document.querySelectorAll(".content-carousel section")
-  );
-  return sections.find((section, index) => {
-    const start = parseFloat(section.dataset.start);
-    // Get end time from next section's start, or use a large number for the last section
-    const end =
-      index < sections.length - 1
-        ? parseFloat(sections[index + 1].dataset.start)
-        : Number.MAX_SAFE_INTEGER;
-    return currentTime >= start && currentTime < end;
-  })?.id;
-}
-
-function updateActiveSection(sectionId) {
-  if (currentSectionId === sectionId) return;
-
-  // Update navigation
-  document.querySelectorAll(".nav-item").forEach((item) => {
-    item.classList.toggle("active", item.dataset.section === sectionId);
-  });
-
-  // Update mobile menu items
-  document.querySelectorAll(".mobile-menu li").forEach((item) => {
-    item.classList.toggle("active", item.dataset.section === sectionId);
-  });
-
-  // Update content sections
-  document.querySelectorAll(".content-carousel section").forEach((section) => {
-    section.classList.toggle("active", section.id === sectionId);
-  });
-
-  currentSectionId = sectionId;
-}
-
-// Event Handlers
-function handleTimeUpdate({ seconds }) {
-  const sectionId = getActiveSectionId(seconds);
-  if (sectionId && (!isUserSeeking || sectionId !== currentSectionId)) {
-    updateActiveSection(sectionId);
-    // Update URL hash without scrolling
-    history.replaceState(null, null, `#${sectionId}`);
-  }
-}
