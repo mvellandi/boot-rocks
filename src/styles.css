@@ -818,6 +818,7 @@ body.standard-page section p {
 
   > a {
     text-decoration: none;
+    /* text-wrap: balance; */
   }
 
   @media (min-width: 768px) {
@@ -832,7 +833,6 @@ body.standard-page section p {
     @media (min-width: 768px) {
       display: inline-block;
       font-size: 300%;
-      /* transform: translate(10px, 15px); */
     }
   }
 }
