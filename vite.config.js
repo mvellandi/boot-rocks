@@ -6,7 +6,7 @@ export default defineConfig({
   base: "/boot-rocks/",
   root: "src",
   build: {
-    outDir: "../dist",
+    outDir: "../docs",
     emptyOutDir: true,
   },
   server: {
