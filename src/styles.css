@@ -383,21 +383,26 @@ ol,
 .link-box {
   font-size: 1.35rem;
   font-weight: 300;
+  /* line-height: 1.4; */
   /* padding-top: 0.4rem; */
 
   @media (min-width: 768px) {
     font-size: 1.4rem;
+    line-height: 1.55;
   }
   @media (min-width: 1024px) {
     font-size: 1.35rem;
+    line-height: 1.5;
     padding-top: 0.3rem;
     max-width: 65ch;
   }
   @media (min-width: 1920px) {
     font-size: 1.4rem;
+    line-height: 1.55;
   }
   @media (min-width: 2300px) {
     font-size: 1.5rem;
+    line-height: 1.6;
   }
 }
 
@@ -835,6 +840,12 @@ body.standard-page section p {
   }
   @media (min-width: 1920px) {
     width: 70%;
+    font-size: 180%;
+    transform: translateY(-0.5rem);
+  }
+  @media (min-width: 2300px) {
+    width: 70%;
+    font-size: 190%;
   }
 
   .emoji {
