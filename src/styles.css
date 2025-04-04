@@ -810,7 +810,6 @@ body.standard-page section p {
   line-height: 1.2;
   align-items: center;
   position: relative;
-  padding-top: 1rem;
 
   > * {
     display: inline-block;
@@ -825,6 +824,17 @@ body.standard-page section p {
     font-size: 160%;
     gap: 1rem;
     transform: translateY(-1.2rem);
+  }
+
+  @media (min-width: 1280px) {
+    transform: translateY(0);
+    width: 85%;
+  }
+  @media (min-width: 1536px) {
+    width: 80%;
+  }
+  @media (min-width: 1920px) {
+    width: 70%;
   }
 
   .emoji {
