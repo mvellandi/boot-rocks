@@ -65,8 +65,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const navItems = document.querySelectorAll(".nav-item");
   const iframe = document.getElementById("vimeo-player");
   const thumbnailOverlay = document.getElementById("thumbnail-overlay");
-  const videoThumbnail = document.getElementById("video-thumbnail");
-  const playButton = document.querySelector(".play-button");
 
   // Show the content section immediately
   contentSection.classList.remove("opacity-0");
@@ -83,50 +81,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateActiveSection(initialSectionId);
   }
 
-  // Set a static thumbnail immediately
-  videoThumbnail.src = "https://i.vimeocdn.com/video/1072643347_1920x1080.jpg";
-
-  // Simple function to start the video
-  function startVideo() {
-    if (playerInitialized) return;
-
-    console.log("Starting video...");
-
-    // Hide the thumbnail overlay
-    thumbnailOverlay.style.opacity = "0";
-
-    // Show the iframe
-    iframe.style.display = "block";
-    iframe.style.opacity = "1";
-
-    // Remove the thumbnail overlay after fade out
-    setTimeout(() => {
-      thumbnailOverlay.style.display = "none";
-    }, 400);
-
-    playerInitialized = true;
-  }
-
-  // Set up click handlers
-  if (playButton) {
-    playButton.addEventListener("click", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      console.log("Play button clicked");
-      startVideo();
-    });
-  }
-
-  thumbnailOverlay.addEventListener("click", function (e) {
-    e.preventDefault();
-    console.log("Thumbnail clicked");
-    startVideo();
-  });
-
   // Initialize Vimeo Player
   if (iframe) {
-    // Hide the iframe initially
-    iframe.style.display = "none";
+    // Set the iframe source with specific parameters to control the initial appearance
+    iframe.src = `https://player.vimeo.com/video/${VIMEO_VIDEO_ID}?background=0&autopause=0&transparent=0&autoplay=0&loop=0&title=0&byline=0&portrait=0&quality=1080p&dnt=1&controls=1`;
+
+    // Show the iframe immediately
+    iframe.style.display = "block";
 
     // Initialize the player
     player = new Player(iframe, {
@@ -141,35 +102,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       portrait: false,
       playsinline: true,
       background: false,
+      quality: "1080p",
+      dnt: 1,
     });
 
     try {
-      // Wait for player to be ready
       await player.ready();
       console.log("Player ready, seeking to:", initialTime);
 
       // Event Listeners
       player.on("timeupdate", handleTimeUpdate);
 
-      // Set the initial time
+      // Set the initial time if needed
       if (initialTime > 0) {
         await player.setCurrentTime(initialTime);
       }
 
-      // Set up a one-time event listener for when the player becomes visible
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting && !playerInitialized) {
-              console.log("Player is visible, starting playback");
-              player.play();
-            }
-          });
-        },
-        { threshold: 0.5 }
-      );
-
-      observer.observe(iframe);
+      // Hide the thumbnail overlay after player is ready
+      thumbnailOverlay.style.display = "none";
     } catch (error) {
       console.error("Error initializing player:", error);
     }
@@ -233,7 +183,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function toggleMobileMenu() {
     if (!mobileMenu || !mobileMenuButton) return;
-
     mobileMenu.classList.toggle("active");
     const isExpanded =
       mobileMenuButton.getAttribute("aria-expanded") === "true";
