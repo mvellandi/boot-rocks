@@ -23,7 +23,6 @@ function getActiveSectionId(currentTime) {
   );
   return sections.find((section, index) => {
     const start = parseFloat(section.dataset.start);
-    // Get end time from next section's start, or use a large number for the last section
     const end =
       index < sections.length - 1
         ? parseFloat(sections[index + 1].dataset.start)
@@ -35,17 +34,14 @@ function getActiveSectionId(currentTime) {
 function updateActiveSection(sectionId) {
   if (currentSectionId === sectionId) return;
 
-  // Update navigation
   document.querySelectorAll(".nav-item").forEach((item) => {
     item.classList.toggle("active", item.dataset.section === sectionId);
   });
 
-  // Update mobile menu items
   document.querySelectorAll(".mobile-menu li").forEach((item) => {
     item.classList.toggle("active", item.dataset.section === sectionId);
   });
 
-  // Update content sections
   document.querySelectorAll(".content-carousel section").forEach((section) => {
     section.classList.toggle("active", section.id === sectionId);
   });
@@ -58,7 +54,6 @@ function handleTimeUpdate({ seconds }) {
   const sectionId = getActiveSectionId(seconds);
   if (sectionId && !isUserNavigating) {
     updateActiveSection(sectionId);
-    // Update URL hash without scrolling
     history.replaceState(null, null, `#${sectionId}`);
   }
 }
@@ -71,6 +66,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const iframe = document.getElementById("vimeo-player");
   const thumbnailOverlay = document.getElementById("thumbnail-overlay");
   const videoThumbnail = document.getElementById("video-thumbnail");
+  const playButton = document.querySelector(".play-button");
 
   // Show the content section immediately
   contentSection.classList.remove("opacity-0");
@@ -83,18 +79,54 @@ document.addEventListener("DOMContentLoaded", async () => {
     ? parseFloat(initialSection.dataset.start)
     : 0;
 
-  console.log("Initial section:", initialSectionId, "Time:", initialTime);
-
   if (initialSection) {
-    // Update UI immediately for direct navigation
     updateActiveSection(initialSectionId);
   }
 
-  // Initialize Vimeo Player immediately
-  if (iframe) {
-    // Show the iframe but keep it hidden
+  // Set a static thumbnail immediately
+  videoThumbnail.src = "https://i.vimeocdn.com/video/1072643347_1920x1080.jpg";
+
+  // Simple function to start the video
+  function startVideo() {
+    if (playerInitialized) return;
+
+    console.log("Starting video...");
+
+    // Hide the thumbnail overlay
+    thumbnailOverlay.style.opacity = "0";
+
+    // Show the iframe
     iframe.style.display = "block";
-    iframe.style.opacity = "0";
+    iframe.style.opacity = "1";
+
+    // Remove the thumbnail overlay after fade out
+    setTimeout(() => {
+      thumbnailOverlay.style.display = "none";
+    }, 400);
+
+    playerInitialized = true;
+  }
+
+  // Set up click handlers
+  if (playButton) {
+    playButton.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("Play button clicked");
+      startVideo();
+    });
+  }
+
+  thumbnailOverlay.addEventListener("click", function (e) {
+    e.preventDefault();
+    console.log("Thumbnail clicked");
+    startVideo();
+  });
+
+  // Initialize Vimeo Player
+  if (iframe) {
+    // Hide the iframe initially
+    iframe.style.display = "none";
 
     // Initialize the player
     player = new Player(iframe, {
@@ -107,7 +139,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       title: false,
       byline: false,
       portrait: false,
-      playsinline: true, // Important for mobile
+      playsinline: true,
       background: false,
     });
 
@@ -124,57 +156,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         await player.setCurrentTime(initialTime);
       }
 
-      // Load the video and prepare it for playback
-      await player.play();
-      await player.pause();
+      // Set up a one-time event listener for when the player becomes visible
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !playerInitialized) {
+              console.log("Player is visible, starting playback");
+              player.play();
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
 
-      // Set up click handler for thumbnail overlay
-      thumbnailOverlay.addEventListener("click", async () => {
-        if (!playerInitialized) {
-          // Show the player immediately
-          iframe.style.opacity = "1";
-          thumbnailOverlay.style.opacity = "0";
-
-          // Start playing
-          await player.play();
-
-          // Remove the thumbnail overlay after fade out
-          setTimeout(() => {
-            thumbnailOverlay.style.display = "none";
-          }, 400);
-
-          playerInitialized = true;
-        }
-      });
-
-      // If no thumbnail overlay (mobile), initialize immediately
-      if (!thumbnailOverlay || window.innerWidth <= 768) {
-        iframe.style.opacity = "1";
-        playerInitialized = true;
-      }
+      observer.observe(iframe);
     } catch (error) {
       console.error("Error initializing player:", error);
     }
-  }
-
-  // Fetch thumbnail from Vimeo oEmbed API
-  try {
-    const response = await fetch(
-      `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${VIMEO_VIDEO_ID}&width=1920&maxwidth=1920`
-    );
-    const data = await response.json();
-    if (data.thumbnail_url) {
-      // Replace _640x360 with _1920x1080 to get the highest quality thumbnail
-      const highResThumb = data.thumbnail_url.replace(
-        /_\d+x\d+\./,
-        "_1920x1080."
-      );
-      videoThumbnail.src = highResThumb;
-    }
-  } catch (error) {
-    console.error("Error fetching thumbnail:", error);
-    // Fallback to a default thumbnail if needed
-    videoThumbnail.src = "https://i.vimeocdn.com/video/default-1920x1080.jpg";
   }
 
   // Add hash change event listener
@@ -242,76 +240,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     mobileMenuButton.setAttribute("aria-expanded", !isExpanded);
   }
 
-  // Open menu when clicking the button
   mobileMenuButton?.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
     toggleMobileMenu();
   });
 
-  // Close menu when clicking the close button
   mobileMenuClose.addEventListener("click", toggleMobileMenu);
 
-  // Close menu when clicking the overlay (background)
   mobileMenu.addEventListener("click", (e) => {
     if (e.target === mobileMenu) {
       toggleMobileMenu();
     }
-  });
-
-  // Add event listeners to mobile menu items
-  const menuItems = mobileMenu.querySelectorAll("li");
-  menuItems.forEach((item) => {
-    item.addEventListener("click", async (event) => {
-      event.preventDefault();
-      // Close menu first
-      mobileMenu.classList.remove("active");
-      mobileMenuButton.setAttribute("aria-expanded", "false");
-
-      // Then update content
-      const section = event.currentTarget.dataset.section;
-      updateActiveSection(section);
-      history.pushState({ section }, "", `#${section}`);
-
-      // Handle video navigation
-      if (player) {
-        const wasPlaying = await player.getPaused().then((paused) => !paused);
-        if (wasPlaying) {
-          await player.pause();
-        }
-        await player.setCurrentTime(getSectionStartTime(section));
-        if (wasPlaying) {
-          await player.play();
-        }
-      }
-    });
-  });
-
-  // Add click handlers to continue reading links
-  document.querySelectorAll('.link[href^="#"]').forEach((link) => {
-    link.addEventListener("click", async (e) => {
-      e.preventDefault();
-      isUserNavigating = true; // Set flag when user initiates navigation
-      const targetId = link.getAttribute("href").slice(1);
-      window.location.hash = targetId;
-      window.scrollTo(0, 0);
-
-      // Handle video navigation
-      if (player) {
-        const wasPlaying = await player.getPaused().then((paused) => !paused);
-        if (wasPlaying) {
-          await player.pause();
-        }
-        await player.setCurrentTime(getSectionStartTime(targetId));
-        if (wasPlaying) {
-          await player.play();
-        }
-      }
-
-      // Reset flag after a short delay to allow navigation to complete
-      setTimeout(() => {
-        isUserNavigating = false;
-      }, 1000);
-    });
   });
 });
