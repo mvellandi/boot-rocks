@@ -75,6 +75,88 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Show the content section immediately
   contentSection.classList.remove("opacity-0");
 
+  // Handle initial navigation based on hash
+  const hash = window.location.hash.slice(1);
+  const initialSectionId = hash || "intro";
+  const initialSection = document.getElementById(initialSectionId);
+  const initialTime = initialSection
+    ? parseFloat(initialSection.dataset.start)
+    : 0;
+
+  console.log("Initial section:", initialSectionId, "Time:", initialTime);
+
+  if (initialSection) {
+    // Update UI immediately for direct navigation
+    updateActiveSection(initialSectionId);
+  }
+
+  // Initialize Vimeo Player immediately
+  if (iframe) {
+    // Show the iframe but keep it hidden
+    iframe.style.display = "block";
+    iframe.style.opacity = "0";
+
+    // Initialize the player
+    player = new Player(iframe, {
+      id: VIMEO_VIDEO_ID,
+      width: "100%",
+      height: "100%",
+      responsive: true,
+      autoplay: false,
+      controls: true,
+      title: false,
+      byline: false,
+      portrait: false,
+      playsinline: true, // Important for mobile
+      background: false,
+    });
+
+    try {
+      // Wait for player to be ready
+      await player.ready();
+      console.log("Player ready, seeking to:", initialTime);
+
+      // Event Listeners
+      player.on("timeupdate", handleTimeUpdate);
+
+      // Set the initial time
+      if (initialTime > 0) {
+        await player.setCurrentTime(initialTime);
+      }
+
+      // Load the video and prepare it for playback
+      await player.play();
+      await player.pause();
+
+      // Set up click handler for thumbnail overlay
+      thumbnailOverlay.addEventListener("click", async () => {
+        if (!playerInitialized) {
+          // Show the player immediately
+          iframe.style.opacity = "1";
+          thumbnailOverlay.style.opacity = "0";
+
+          // Start playing
+          await player.play();
+
+          // Remove the thumbnail overlay after fade out
+          setTimeout(() => {
+            thumbnailOverlay.style.display = "none";
+          }, 400);
+
+          playerInitialized = true;
+        }
+      });
+
+      // If no thumbnail overlay (mobile), initialize immediately
+      if (!thumbnailOverlay || window.innerWidth <= 768) {
+        iframe.style.opacity = "1";
+        playerInitialized = true;
+      }
+    } catch (error) {
+      console.error("Error initializing player:", error);
+    }
+  }
+
   // Fetch thumbnail from Vimeo oEmbed API
   try {
     const response = await fetch(
@@ -93,80 +175,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Error fetching thumbnail:", error);
     // Fallback to a default thumbnail if needed
     videoThumbnail.src = "https://i.vimeocdn.com/video/default-1920x1080.jpg";
-  }
-
-  // Handle initial navigation based on hash
-  const hash = window.location.hash.slice(1);
-  const initialSectionId = hash || "intro";
-  const initialSection = document.getElementById(initialSectionId);
-  const initialTime = initialSection
-    ? parseFloat(initialSection.dataset.start)
-    : 0;
-
-  console.log("Initial section:", initialSectionId, "Time:", initialTime);
-
-  if (initialSection) {
-    // Update UI immediately for direct navigation
-    updateActiveSection(initialSectionId);
-  }
-
-  // Initialize Vimeo Player
-  if (iframe) {
-    // Set up click handler for thumbnail overlay
-    thumbnailOverlay.addEventListener("click", async () => {
-      if (!playerInitialized) {
-        // Show the iframe behind the thumbnail
-        iframe.style.display = "block";
-        iframe.style.opacity = "0"; // Hide the iframe initially
-
-        // Initialize the player
-        player = new Player(iframe, {
-          id: VIMEO_VIDEO_ID,
-          width: "100%",
-          height: "100%",
-          responsive: true,
-          autoplay: false,
-          controls: true,
-          title: false,
-          byline: false,
-          portrait: false,
-        });
-
-        try {
-          // Wait for player to be ready
-          await player.ready();
-          console.log("Player ready, seeking to:", initialTime);
-
-          // Event Listeners
-          player.on("timeupdate", handleTimeUpdate);
-
-          // Set the time first
-          if (initialTime > 0) {
-            await player.setCurrentTime(initialTime);
-          }
-
-          // Load the video and prepare it for playback
-          await player.play();
-          await player.pause();
-
-          // Now that everything is ready, switch from thumbnail to video
-          iframe.style.opacity = "1"; // Show the iframe
-          thumbnailOverlay.style.opacity = "0"; // Fade out thumbnail
-
-          // Start playing
-          await player.play();
-
-          // Remove the thumbnail overlay after fade out
-          setTimeout(() => {
-            thumbnailOverlay.style.display = "none";
-          }, 400); // Match this with your CSS transition duration
-
-          playerInitialized = true;
-        } catch (error) {
-          console.error("Error initializing player:", error);
-        }
-      }
-    });
   }
 
   // Add hash change event listener
@@ -193,13 +201,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Add click handlers to navigation items
   navItems.forEach((item) => {
     item.addEventListener("click", async (event) => {
-      event.preventDefault(); // Prevent default anchor behavior
-      isUserNavigating = true; // Set flag when user initiates navigation
+      event.preventDefault();
+      isUserNavigating = true;
       const section = event.currentTarget.dataset.section;
       updateActiveSection(section);
       history.pushState({ section }, "", `#${section}`);
 
-      // Handle video navigation
       if (player) {
         const wasPlaying = await player.getPaused().then((paused) => !paused);
         if (wasPlaying) {
@@ -211,7 +218,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       }
 
-      // Reset flag after a short delay to allow navigation to complete
       setTimeout(() => {
         isUserNavigating = false;
       }, 1000);
