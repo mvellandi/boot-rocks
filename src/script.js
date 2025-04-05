@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Initialize Vimeo Player
   if (iframe) {
     // Set the iframe source with specific parameters to control the initial appearance
-    iframe.src = `https://player.vimeo.com/video/${VIMEO_VIDEO_ID}?background=0&autopause=0&transparent=0&autoplay=0&loop=0&title=0&byline=0&portrait=0&quality=1080p&dnt=1&controls=1&texttrack=false&transcript=false`;
+    iframe.src = `https://player.vimeo.com/video/${VIMEO_VIDEO_ID}?background=0&autopause=0&transparent=0&autoplay=0&loop=0&title=0&byline=0&portrait=0&quality=1080p&dnt=1&controls=1&cc=false&texttrack=false`;
 
     // Show the iframe immediately
     iframe.style.display = "block";
@@ -104,8 +104,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       background: false,
       quality: "1080p",
       dnt: 1,
+      cc: false,
       texttrack: false,
-      transcript: false,
     });
 
     try {
