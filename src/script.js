@@ -204,4 +204,61 @@ document.addEventListener("DOMContentLoaded", async () => {
       toggleMobileMenu();
     }
   });
+
+  // Add event listeners to mobile menu items
+  const menuItems = mobileMenu.querySelectorAll("li");
+  menuItems.forEach((item) => {
+    item.addEventListener("click", async (event) => {
+      event.preventDefault();
+
+      // Close menu first
+      mobileMenu.classList.remove("active");
+      mobileMenuButton.setAttribute("aria-expanded", "false");
+
+      // Then update content
+      const section = event.currentTarget.dataset.section;
+      updateActiveSection(section);
+      history.pushState({ section }, "", `#${section}`);
+
+      // Handle video navigation
+      if (player) {
+        const wasPlaying = await player.getPaused().then((paused) => !paused);
+        if (wasPlaying) {
+          await player.pause();
+        }
+        await player.setCurrentTime(getSectionStartTime(section));
+        if (wasPlaying) {
+          await player.play();
+        }
+      }
+    });
+  });
+
+  // Add click handlers to continue reading links
+  document.querySelectorAll('.link[href^="#"]').forEach((link) => {
+    link.addEventListener("click", async (e) => {
+      e.preventDefault();
+      isUserNavigating = true; // Set flag when user initiates navigation
+      const targetId = link.getAttribute("href").slice(1);
+      window.location.hash = targetId;
+      window.scrollTo(0, 0);
+
+      // Handle video navigation
+      if (player) {
+        const wasPlaying = await player.getPaused().then((paused) => !paused);
+        if (wasPlaying) {
+          await player.pause();
+        }
+        await player.setCurrentTime(getSectionStartTime(targetId));
+        if (wasPlaying) {
+          await player.play();
+        }
+      }
+
+      // Reset flag after a short delay to allow navigation to complete
+      setTimeout(() => {
+        isUserNavigating = false;
+      }, 1000);
+    });
+  });
 });
