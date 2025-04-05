@@ -10,6 +10,8 @@ let player = null;
 let currentSectionId = null;
 let isUserNavigating = false; // Flag to track user navigation
 let playerInitialized = false;
+let pageReady = false; // New flag to track page readiness
+let isInitialLoad = true; // Flag to track initial page load
 
 // Helper Functions
 function getSectionStartTime(sectionId) {
@@ -58,24 +60,71 @@ function handleTimeUpdate({ seconds }) {
   }
 }
 
+// Function to ensure scroll position is at top
+function ensureScrollAtTop() {
+  return new Promise((resolve) => {
+    if (window.scrollY === 0) {
+      resolve();
+      return;
+    }
+
+    window.scrollTo(0, 0);
+
+    // Check if scroll has completed
+    const checkScroll = setInterval(() => {
+      if (window.scrollY === 0) {
+        clearInterval(checkScroll);
+        resolve();
+      }
+    }, 10);
+
+    // Timeout after 1 second
+    setTimeout(() => {
+      clearInterval(checkScroll);
+      resolve();
+    }, 1000);
+  });
+}
+
+// Function to show page content
+function showPageContent() {
+  if (pageReady) return;
+  const contentSection = document.querySelector(".content-carousel");
+  contentSection.classList.remove("opacity-0");
+  document.body.classList.remove("no-scroll");
+  pageReady = true;
+}
+
 // Initialize everything after DOM is loaded
 document.addEventListener("DOMContentLoaded", async () => {
+  // Add no-scroll class to body for non-root routes
+  const hash = window.location.hash.slice(1);
+  if (hash) {
+    document.body.classList.add("no-scroll");
+  }
+
   // DOM Elements
   const contentSection = document.querySelector(".content-carousel");
   const navItems = document.querySelectorAll(".nav-item");
   const iframe = document.getElementById("vimeo-player");
   const thumbnailOverlay = document.getElementById("thumbnail-overlay");
 
-  // Show the content section immediately
-  contentSection.classList.remove("opacity-0");
-
   // Handle initial navigation based on hash
-  const hash = window.location.hash.slice(1);
   const initialSectionId = hash || "intro";
   const initialSection = document.getElementById(initialSectionId);
   const initialTime = initialSection
     ? parseFloat(initialSection.dataset.start)
     : 0;
+
+  // Only delay render for non-root routes
+  if (hash) {
+    // Force scroll to top without animation
+    window.scrollTo(0, 0);
+    // Wait a bit to ensure scroll is complete
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+
+  showPageContent();
 
   if (initialSection) {
     updateActiveSection(initialSectionId);
@@ -127,13 +176,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Add hash change event listener
+  // Update hash change event listener to ensure scroll position
   window.addEventListener("hashchange", async () => {
     const newHash = window.location.hash.slice(1);
     const newSection = document.getElementById(newHash);
 
     if (newSection && newHash !== currentSectionId) {
+      // Add no-scroll class
+      document.body.classList.add("no-scroll");
+
+      // Force scroll to top without animation
+      window.scrollTo(0, 0);
+      // Wait a bit to ensure scroll is complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
       updateActiveSection(newHash);
+
+      // Remove no-scroll class
+      document.body.classList.remove("no-scroll");
+
       if (player) {
         isUserNavigating = true;
         const wasPlaying = await player.getPaused().then((paused) => !paused);
