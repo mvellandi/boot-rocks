@@ -14,13 +14,13 @@ The campaign launched on multiple social media sites over a few weeks with a new
 - Link and site traffic analytics
 
 # Design / Tech
-Code: HTML, CSS, JavaScript
-Libs: Vite, Vimeo, Tailwind
-Design: Photoshop
-Video: DaVinci Resolve (editing), Kapwing (subtitles)
-Sound: Audacity
-Deployment: GitHub Actions and Pages
-IDE: Cursor with Claude
+- **Code**: HTML, CSS, JavaScript
+- **Libs**: Vite, Vimeo, Tailwind
+- **Design**: Photoshop
+- **Video**: DaVinci Resolve (editing), Kapwing (subtitles)
+- **Sound**: Audacity
+- **Deployment**: GitHub Actions and Pages
+- **IDE**: Cursor with Claude
 
 # Process
 ## Concept
@@ -87,9 +87,20 @@ The video was hosted using a Vimeo Pro account, using their player SDK for integ
 2. Sets up Node.js, installs dependencies, and builds the project
 3. Deploys built files to GitHub Pages using the `peaceiris/actions-gh-pages` action
 
+## Marketing
+The campaign launched on multiple social platforms on a staggered schedule. This included at least 10 posts for each video section with corresponding content. Text was customized to be personal, advocacy-orietend, address the video topic at large, mention relevant individuals, and include hashtags mostly related to software engineering. The end of each video included a call-to-action (CTA).
+
+To maximize viewability and attention on all devices and platforms, social clips had a 1:1 AR (square format) and included an animated intro for 2.5 seconds and large subtitles, as social platforms autoplay videos without sound. Second, because platforms place a video differently in relation to the text content, and may not allow clickable links, three variation were made to the outro CTA.
+
+1. "...link above": LinkedIn, X, BlueSky
+2. "...link below": YouTube Shorts
+3. "learn more URL": Instagram, Reels, TikTok, Threads
+
+While YouTube Shorts doesn't allow clickable links, they allow publishers to select related video links specially highlighted in the UI below the video, so audiences stay on the platform longer. All 10 clips were published simultaneously on YouTube Shorts and sequentially linked.
+
+The full 7-minute video was later published on platforms where widescreen is acceptable, including YouTube, LinkedIn, BlueSky, X, and Threads.
+
 ## Analytics
 [Dub.co](https://dub.co): creating and tracking inbound links from social media posts to the Boot Rocks website, Boot.dev (website, podcast, YouTube), my (Mario Vellandi) website, and the project information page in my portfolio.
 
 [Plausible Analytics](https://plausible.io): tracking website traffic including page views, unique visitors, and referral sources. Added as a script to the HTML head.
-
-The campaign launched on multiple social platforms on a staggered schedule. This included at least 10 posts for each video section with corresponding content. The end of each video includes a call-to-action "Reason #X and 7 others at the link above", tied to tracking links. Post hashtags were used as space allowed.
