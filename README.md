@@ -5,7 +5,7 @@ This fun project was created to demonstrate my triforce of marketing, engineerin
 
 The video has 10 sections including: an introduction, 8 reasons why "Boot Rocks", and a summary. Section clips were made with subtitles and an AI-generated video outro featuring a female adventurer, a call-to-action to visit tracked links, and a soundtrack. People could then visit the campaign website at Boot.Rocks to see the full video, accompanying text, and navigate around. Analytics were used for both social links and website traffic.
 
-The campaign launched on LinkedIn, Twitter, and Bluesky over a few weeks with a new clip posted every other day, Monday to Friday, with custom messaging, mentions, and tags as appropriate.
+The campaign launched on 7 social media platforms over a few weeks with a new clip posted every other day, Monday to Friday, with custom messaging, mentions, and tags as appropriate.
 
 # Features
 - 7 minute video product review
@@ -79,7 +79,7 @@ For the ending of the widescreen video and the final social clip, scenes and mus
 Subtitles were added and edited for social media clips using [Kapwing](https://www.kapwing.com/tools/auto-subtitle-video).
 
 ## Website
-The site was iteratively built using Cursor Pro with AI assistance as a single dictated dialogue. I wrote most HTML and CSS, while AI created all the JavaScript. The critical assistance needed was for the video display (Vimeo SDK), navigation, and showing/hiding section content. A mobile-first design approach was used with 7 screen-width breakpoints.
+The site was iteratively built using Cursor Pro with AI assistance. I wrote most HTML and CSS, while AI created all the JavaScript for the video display (Vimeo SDK), navigation, and showing/hiding section content. A mobile-first design approach was used with 7 screen-width breakpoints.
 
 CSS was nested and custom properties often used. While Tailwind was mostly used in the beginning, most styles moved to CSS since UI components weren't feasible when building 2 pages with static content and vanilla JS. UI was tested with Chrome DevTools and Sizzy emulator. Local commits were continuously, while Vite was used for development and production builds.
 
@@ -90,7 +90,7 @@ The video was hosted using a Vimeo Pro account, using their player SDK for integ
 3. Deploys built files to GitHub Pages using the `peaceiris/actions-gh-pages` action
 
 ## Marketing
-The campaign launched on multiple social platforms on a staggered schedule. This included at least 10 posts for each video section with corresponding content. Text was customized to be personal, advocacy-orietend, address the video topic at large, mention relevant individuals, and include hashtags mostly related to software engineering. The end of each video included a call-to-action (CTA).
+The campaign launched on 7 social media platforms on a staggered schedule. This included at least 10 posts for each video section with corresponding content. Text was customized to be personal, advocacy-orietend, address the video topic at large, mention relevant individuals, and include hashtags mostly related to software engineering. The end of each video included a call-to-action (CTA).
 
 To maximize viewability and attention on all devices and platforms, social clips had a 1:1 AR (square format) and included an animated intro for 2.5 seconds and large subtitles, as social platforms autoplay videos without sound. Second, because platforms place a video differently in relation to the text content, and may not allow clickable links, three variation were made to the outro CTA.
 
