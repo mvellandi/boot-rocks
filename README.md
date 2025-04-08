@@ -74,6 +74,8 @@ Each section was filmed in multiple takes, reviewed, and edited in DaVinci Resol
 
 Primary music was from the film "The Goonies", with the Community section from "Lord of the Rings". Outro music was mostly from various soundtracks including "Star Trek II: The Wrath of Khan", "The Illusionist", "Tales from the Crypt", and "The Silence of the Lambs". Clips were cut in Audacity, with selective volume adjustments for dramatic effect and transitions.
 
+For the ending of the widescreen video and the final social clip, scenes and music were included from the film "Raiders of the Lost Ark" with a golden statue replaced with an Boot Archmage player level icon for comedic effect.
+
 Subtitles were added and edited for social media clips using [Kapwing](https://www.kapwing.com/tools/auto-subtitle-video).
 
 ## Website
