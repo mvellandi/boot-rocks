@@ -68,6 +68,7 @@
       data-domain="boot.rocks"
       src="https://plausible.io/js/script.hash.outbound-links.js"
     ></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mux/mux-player"></script>
   </head>
   <body class="container video-page">
     <!-- Site Header -->
@@ -88,15 +89,14 @@
       <!-- Left Column: Video and Content -->
       <!-- Video Player Section -->
       <div class="video-container">
-        <iframe
-          id="vimeo-player"
-          src=""
-          class="absolute inset-0 w-full h-full"
-          frameborder="0"
-          allow="autoplay; fullscreen; picture-in-picture"
-          allowfullscreen
-          style="background: #000000"
-        ></iframe>
+        <mux-player
+          id="mux-player"
+          playback-id="WiotNBkpu2om5owi02fZhkaGAoQHlrXU3Nzf3qDHZqp8"
+          metadata-video-title="Boot.Rocks Review"
+          accent-color="#d97706"
+          poster="/thumb.jpg"
+          default-hidden-captions
+        ></mux-player>
       </div>
 
       <div class="mobile-menu">

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Boot Rocks is an interactive product review website featuring a synchronized video and content navigation system. The site reviews Boot.dev (an online software engineering education platform) through a 7-minute video divided into 10 navigable sections. This is a static site built with vanilla JavaScript, using the Vimeo Player SDK for video integration.
+Boot Rocks is an interactive product review website featuring a synchronized video and content navigation system. The site reviews Boot.dev (an online software engineering education platform) through a 7-minute video divided into 10 navigable sections. This is a static site built with vanilla JavaScript, using Mux Player for video integration.
 
 **Live Site:** https://boot.rocks
 
@@ -31,7 +31,7 @@ The application's key architectural feature is **bi-directional video-content sy
 
 This is managed through:
 - `data-start` attributes on HTML sections containing video timestamps (in seconds)
-- Vimeo Player SDK event listeners (`timeupdate`, `seeked`)
+- Mux Player event listeners (`timeupdate`)
 - State flag `isUserNavigating` to prevent feedback loops between playback sync and manual navigation
 
 ### Multi-Entry Build System
@@ -83,7 +83,7 @@ Seven breakpoints defined in CSS custom properties:
 The JavaScript uses a simple state model without frameworks:
 
 ```javascript
-let player = null;                    // Vimeo player instance
+let player = null;                    // Mux player instance
 let currentSectionId = null;          // Active section ID
 let isUserNavigating = false;         // Prevents sync conflicts
 let playerInitialized = false;        // Initialization flag
@@ -97,7 +97,8 @@ Navigation uses hash-based routing (`window.location.hash`) for bookmarkability 
 |------|---------|
 | [src/index.html](src/index.html) | Main page with 10 video sections (469 lines) |
 | [src/about.html](src/about.html) | About/project info page (86 lines) |
-| [src/script.js](src/script.js) | All interactivity: Vimeo SDK, navigation sync, mobile menu (326 lines) |
+| [src/script.js](src/script.js) | All interactivity: Mux Player, navigation sync, mobile menu (323 lines) |
+| [docs/mux-player-customization.md](docs/mux-player-customization.md) | Mux Player control customization guide |
 | [src/styles.css](src/styles.css) | Main styles: layout, responsive, typography (800+ lines) |
 | [src/colors.css](src/colors.css) | Design system color variables and scales (152 lines) |
 | [vite.config.js](vite.config.js) | Build configuration for multi-entry setup |
@@ -138,7 +139,7 @@ Navigation uses hash-based routing (`window.location.hash`) for bookmarkability 
    - `data-start`: Video timestamp in seconds
 
 2. **Event-driven architecture**:
-   - Vimeo Player events (`timeupdate`, `seeked`, `play`, `pause`)
+   - Mux Player events (`timeupdate`, `loadedmetadata`)
    - Hash change events for navigation
    - Click handlers for mobile menu
 
@@ -166,9 +167,30 @@ Workflow file: [.github/workflows/deploy.yml](.github/workflows/deploy.yml)
 
 ## Third-Party Integrations
 
-- **Vimeo Player SDK** (@vimeo/player): Video embedding and programmatic control
+- **Mux Player** (web component): Video streaming and programmatic control
+  - Loaded via CDN: `https://cdn.jsdelivr.net/npm/@mux/mux-player`
+  - Uses HTML5-like media API (no external SDK needed)
+  - Customized via CSS variables (see [docs/mux-player-customization.md](docs/mux-player-customization.md))
 - **Plausible Analytics**: Privacy-focused analytics (script tag in HTML head)
 - **Custom domain**: boot.rocks via CNAME in GitHub Pages settings
+
+### Video Player Customization
+
+The Mux Player is customized to show a minimal control bar. Unwanted controls (seek buttons, quality selector, playback rate, PiP, AirPlay, Cast) are hidden using CSS variables in [src/styles.css](src/styles.css):
+
+```css
+.video-container mux-player {
+  --seek-backward-button: none;
+  --seek-forward-button: none;
+  --playback-rate-button: none;
+  --rendition-menu-button: none;
+  --airplay-button: none;
+  --cast-button: none;
+  --pip-button: none;
+}
+```
+
+For complete customization documentation, see [docs/mux-player-customization.md](docs/mux-player-customization.md).
 
 ## Project Context
 
