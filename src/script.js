@@ -12,11 +12,56 @@ let isUserNavigating = false; // Flag to track user navigation
 let playerInitialized = false;
 let pageReady = false; // New flag to track page readiness
 let isInitialLoad = true; // Flag to track initial page load
+let pendingSeek = null; // Track pending seek operations
+let seekTimeout = null; // Track seek timeout for cleanup
 
 // Helper Functions
 function getSectionStartTime(sectionId) {
   const section = document.getElementById(sectionId);
   return section ? parseFloat(section.dataset.start) : 0;
+}
+
+function safeSeek(sectionId) {
+  if (!player) return;
+
+  // Clear any pending seek operation
+  if (seekTimeout) {
+    clearTimeout(seekTimeout);
+  }
+
+  const targetTime = getSectionStartTime(sectionId);
+  const wasPlaying = !player.paused;
+
+  // Set flag immediately
+  isUserNavigating = true;
+
+  // Pause if playing to prevent playback during seek
+  if (wasPlaying) {
+    player.pause();
+  }
+
+  // Perform the seek
+  try {
+    player.currentTime = targetTime;
+  } catch (error) {
+    console.error("Seek error:", error);
+  }
+
+  // Resume playback if it was playing
+  if (wasPlaying) {
+    // Small delay to allow seek to settle
+    setTimeout(() => {
+      player.play().catch((err) => {
+        console.error("Play error:", err);
+      });
+    }, 100);
+  }
+
+  // Clear navigation flag after a delay
+  seekTimeout = setTimeout(() => {
+    isUserNavigating = false;
+    seekTimeout = null;
+  }, 1000);
 }
 
 function getActiveSectionId(currentTime) {
@@ -185,15 +230,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.body.classList.remove("no-scroll");
 
       if (player) {
-        isUserNavigating = true;
-        const wasPlaying = !player.paused;
-        if (wasPlaying) {
-          player.pause();
-        }
-        player.currentTime = parseFloat(newSection.dataset.start);
-        if (wasPlaying) {
-          player.play();
-        }
+        safeSeek(newHash);
       }
     }
   });
@@ -202,25 +239,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   navItems.forEach((item) => {
     item.addEventListener("click", async (event) => {
       event.preventDefault();
-      isUserNavigating = true;
       const section = event.currentTarget.dataset.section;
       updateActiveSection(section);
       history.pushState({ section }, "", `#${section}`);
 
       if (player) {
-        const wasPlaying = !player.paused;
-        if (wasPlaying) {
-          player.pause();
-        }
-        player.currentTime = getSectionStartTime(section);
-        if (wasPlaying) {
-          player.play();
-        }
+        safeSeek(section);
       }
-
-      setTimeout(() => {
-        isUserNavigating = false;
-      }, 1000);
     });
   });
 
@@ -272,14 +297,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Handle video navigation
       if (player) {
-        const wasPlaying = !player.paused;
-        if (wasPlaying) {
-          player.pause();
-        }
-        player.currentTime = getSectionStartTime(section);
-        if (wasPlaying) {
-          player.play();
-        }
+        safeSeek(section);
       }
     });
   });
@@ -288,27 +306,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.querySelectorAll('.link[href^="#"]').forEach((link) => {
     link.addEventListener("click", async (e) => {
       e.preventDefault();
-      isUserNavigating = true; // Set flag when user initiates navigation
       const targetId = link.getAttribute("href").slice(1);
       window.location.hash = targetId;
       window.scrollTo(0, 0);
 
       // Handle video navigation
       if (player) {
-        const wasPlaying = !player.paused;
-        if (wasPlaying) {
-          player.pause();
-        }
-        player.currentTime = getSectionStartTime(targetId);
-        if (wasPlaying) {
-          player.play();
-        }
+        safeSeek(targetId);
       }
-
-      // Reset flag after a short delay to allow navigation to complete
-      setTimeout(() => {
-        isUserNavigating = false;
-      }, 1000);
     });
   });
 });
