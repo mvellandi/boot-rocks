@@ -1,8 +1,8 @@
-// Vimeo Player SDK
-import Player from "@vimeo/player";
+// Mux Player (loaded via script tag in HTML)
+// No import needed - Mux player is a web component
 
 // Constants
-const VIMEO_VIDEO_ID = "1072643347";
+const MUX_PLAYBACK_ID = "WiotNBkpu2om5owi02fZhkaGAoQHlrXU3Nzf3qDHZqp8";
 const DEBUG_MODE = false; // Global debug flag to prevent video playback
 
 // State Management
@@ -104,9 +104,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // DOM Elements
-  const contentSection = document.querySelector(".content-carousel");
   const navItems = document.querySelectorAll(".nav-item");
-  const iframe = document.getElementById("vimeo-player");
+  const muxPlayer = document.getElementById("mux-player");
   const thumbnailOverlay = document.getElementById("thumbnail-overlay");
 
   // Handle initial navigation based on hash
@@ -130,47 +129,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateActiveSection(initialSectionId);
   }
 
-  // Initialize Vimeo Player
-  if (iframe) {
-    // Set the iframe source with specific parameters to control the initial appearance
-    iframe.src = `https://player.vimeo.com/video/${VIMEO_VIDEO_ID}?background=0&autopause=0&transparent=0&autoplay=0&loop=0&title=0&byline=0&portrait=0&quality=1080p&dnt=1&controls=1&cc=false&texttrack=false`;
-
-    // Show the iframe immediately
-    iframe.style.display = "block";
-
-    // Initialize the player
-    player = new Player(iframe, {
-      id: VIMEO_VIDEO_ID,
-      width: "100%",
-      height: "100%",
-      responsive: true,
-      autoplay: false,
-      controls: true,
-      title: false,
-      byline: false,
-      portrait: false,
-      playsinline: true,
-      background: false,
-      quality: "1080p",
-      dnt: 1,
-      cc: false,
-      texttrack: false,
-    });
+  // Initialize Mux Player
+  if (muxPlayer) {
+    player = muxPlayer;
 
     try {
-      await player.ready();
+      // Wait for Mux player to be ready
+      await new Promise((resolve) => {
+        if (player.readyState >= 1) {
+          resolve();
+        } else {
+          player.addEventListener("loadedmetadata", resolve, { once: true });
+        }
+      });
+
+      playerInitialized = true;
       console.log("Player ready, seeking to:", initialTime);
 
       // Event Listeners
-      player.on("timeupdate", handleTimeUpdate);
+      player.addEventListener("timeupdate", () => {
+        handleTimeUpdate({ seconds: player.currentTime });
+      });
 
       // Set the initial time if needed
       if (initialTime > 0) {
-        await player.setCurrentTime(initialTime);
+        player.currentTime = initialTime;
       }
 
       // Hide the thumbnail overlay after player is ready
-      thumbnailOverlay.style.display = "none";
+      if (thumbnailOverlay) {
+        thumbnailOverlay.style.display = "none";
+      }
     } catch (error) {
       console.error("Error initializing player:", error);
     }
@@ -197,13 +186,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (player) {
         isUserNavigating = true;
-        const wasPlaying = await player.getPaused().then((paused) => !paused);
+        const wasPlaying = !player.paused;
         if (wasPlaying) {
-          await player.pause();
+          player.pause();
         }
-        await player.setCurrentTime(parseFloat(newSection.dataset.start));
+        player.currentTime = parseFloat(newSection.dataset.start);
         if (wasPlaying) {
-          await player.play();
+          player.play();
         }
       }
     }
@@ -219,13 +208,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       history.pushState({ section }, "", `#${section}`);
 
       if (player) {
-        const wasPlaying = await player.getPaused().then((paused) => !paused);
+        const wasPlaying = !player.paused;
         if (wasPlaying) {
-          await player.pause();
+          player.pause();
         }
-        await player.setCurrentTime(getSectionStartTime(section));
+        player.currentTime = getSectionStartTime(section);
         if (wasPlaying) {
-          await player.play();
+          player.play();
         }
       }
 
@@ -283,13 +272,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Handle video navigation
       if (player) {
-        const wasPlaying = await player.getPaused().then((paused) => !paused);
+        const wasPlaying = !player.paused;
         if (wasPlaying) {
-          await player.pause();
+          player.pause();
         }
-        await player.setCurrentTime(getSectionStartTime(section));
+        player.currentTime = getSectionStartTime(section);
         if (wasPlaying) {
-          await player.play();
+          player.play();
         }
       }
     });
@@ -306,13 +295,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Handle video navigation
       if (player) {
-        const wasPlaying = await player.getPaused().then((paused) => !paused);
+        const wasPlaying = !player.paused;
         if (wasPlaying) {
-          await player.pause();
+          player.pause();
         }
-        await player.setCurrentTime(getSectionStartTime(targetId));
+        player.currentTime = getSectionStartTime(targetId);
         if (wasPlaying) {
-          await player.play();
+          player.play();
         }
       }
 
